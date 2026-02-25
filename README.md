@@ -1,8 +1,8 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-# firmware_v3
+# ciaa-base
 
-Framework for Embedded Systems Firmware development in C/C++.
+Minimal code required to blink a led using the EDU-CIAA-NXP board.
 
 ## Prerequisites
 
@@ -14,8 +14,8 @@ Framework for Embedded Systems Firmware development in C/C++.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/epernia/firmware_v3.git
-   cd firmware_v3
+   git clone https://github.com/tulians/ciaa-base.git
+   cd ciaa-base
    ```
 
 2. **Build the sample program (blinky):**
