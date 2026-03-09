@@ -47,10 +47,10 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define gpioConfig  gpioInit
-#define pinInit     gpioInit
-#define pinRead     gpioRead
-#define pinWrite    gpioWrite
+#define gpioConfig gpioInit
+#define pinInit gpioInit
+#define pinRead gpioRead
+#define pinWrite gpioWrite
 #define pinValueGet gpioRead
 #define pinValueSet gpioWrite
 
@@ -66,24 +66,25 @@ extern "C" {
  *  INITIALIZE
  */
 typedef enum {
-   GPIO_INPUT, GPIO_OUTPUT,
-   GPIO_INPUT_PULLUP, GPIO_INPUT_PULLDOWN,
-   GPIO_INPUT_PULLUP_PULLDOWN,
-   GPIO_ENABLE
+    GPIO_INPUT,
+    GPIO_OUTPUT,
+    GPIO_INPUT_PULLUP,
+    GPIO_INPUT_PULLDOWN,
+    GPIO_INPUT_PULLUP_PULLDOWN,
+    GPIO_ENABLE
 } gpioInit_t;
-
 
 /* ----- Begin Pin Init Structs NXP LPC4337 ----- */
 
 typedef struct {
-   int8_t port;
-   int8_t pin;
+    int8_t port;
+    int8_t pin;
 } gpioInitLpc4337_t;
 
 typedef struct {
-   pinInitLpc4337_t pinName;
-   int8_t func;
-   gpioInitLpc4337_t gpio;
+    pinInitLpc4337_t pinName;
+    int8_t func;
+    gpioInitLpc4337_t gpio;
 } pinInitGpioLpc4337_t;
 
 /* ------ End Pin Init Structs NXP LPC4337 ------ */
@@ -92,10 +93,10 @@ typedef struct {
 
 /*==================[external functions declaration]=========================*/
 
-bool_t gpioInit( gpioMap_t pin, gpioInit_t config );
-bool_t gpioRead( gpioMap_t pin );
-bool_t gpioWrite( gpioMap_t pin, bool_t value );
-bool_t gpioToggle( gpioMap_t pin );
+bool_t gpioInit(gpioMap_t pin, gpioInit_t config);
+bool_t gpioRead(gpioMap_t pin);
+bool_t gpioWrite(gpioMap_t pin, bool_t value);
+bool_t gpioToggle(gpioMap_t pin);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

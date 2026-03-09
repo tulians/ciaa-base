@@ -48,7 +48,7 @@ extern "C" {
 #endif
 
 /*==================[typedef]================================================*/
-//typedef void (*voidFunctionPointer_t)(void);
+// typedef void (*voidFunctionPointer_t)(void);
 
 /*==================[external functions declaration]=========================*/
 /*
@@ -59,14 +59,14 @@ extern "C" {
  * @return   nothing
  * @note   For the 'ticks' parameter, see function Timer_microsecondsToTicks
  */
-void Timer_Init( uint8_t timerNumber , uint32_t ticks, callBackFuncPtr_t voidFunctionPointer );
+void Timer_Init(uint8_t timerNumber, uint32_t ticks, callBackFuncPtr_t voidFunctionPointer);
 
 /*
  * @Brief   Disables timer peripheral
  * @param   timerNumber:   Timer number, 0 to 3
  * @return   nothing
  */
-void Timer_DeInit( uint8_t timerNumber );
+void Timer_DeInit(uint8_t timerNumber);
 
 /*
  * @Brief   Converts a value in microseconds (uS = 1x10^-6 sec) to ticks
@@ -74,7 +74,7 @@ void Timer_DeInit( uint8_t timerNumber );
  * @return   Equivalent in Ticks for the LPC4337
  * @note   Can be used for the second parameter in the Timer_init
  */
-uint32_t Timer_microsecondsToTicks( uint32_t uS );
+uint32_t Timer_microsecondsToTicks(uint32_t uS);
 
 /*
  * @Brief   Enables a compare match in a timer
@@ -85,8 +85,8 @@ uint32_t Timer_microsecondsToTicks( uint32_t uS );
  * @return   None
  * @note   For the 'ticks' parameter, see function Timer_microsecondsToTicks
  */
-void Timer_EnableCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber, 
-                               uint32_t ticks, callBackFuncPtr_t voidFunctionPointer );
+void Timer_EnableCompareMatch(uint8_t timerNumber, uint8_t compareMatchNumber, uint32_t ticks,
+                              callBackFuncPtr_t voidFunctionPointer);
 
 /*
  * @brief   Disables a compare match of a timer
@@ -94,16 +94,17 @@ void Timer_EnableCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber,
  * @param   compareMatchNumber:   Compare match number, 1 to 3
  * @return   None
  */
-void Timer_DisableCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber );
+void Timer_DisableCompareMatch(uint8_t timerNumber, uint8_t compareMatchNumber);
 
 /*
- * @Purpose:   Allows the user to change the compare value n? 'compareMatchNumber' of timer 'timerNumber'.
- *    This is specially useful to generate square waves if used in the function for the TIMERCOMPAREMATCH0 (because
- *    that compare match resets the timer counter), which will be passed as a parameter when initializing a timer
- * @note:  The selected time (3rd parameter) must be less than TIMERCOMPAREMATCH0's compareMatchTime_uS
- *   for the compare match to make the interruption
+ * @Purpose:   Allows the user to change the compare value n? 'compareMatchNumber' of timer
+ * 'timerNumber'. This is specially useful to generate square waves if used in the function for the
+ * TIMERCOMPAREMATCH0 (because that compare match resets the timer counter), which will be passed as
+ * a parameter when initializing a timer
+ * @note:  The selected time (3rd parameter) must be less than TIMERCOMPAREMATCH0's
+ * compareMatchTime_uS for the compare match to make the interruption
  */
-void Timer_SetCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber, uint32_t ticks );
+void Timer_SetCompareMatch(uint8_t timerNumber, uint8_t compareMatchNumber, uint32_t ticks);
 
 /*==================[ISR external functions declaration]=====================*/
 

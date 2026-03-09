@@ -40,6 +40,7 @@
 /*==================[inclusions]=============================================*/
 
 #include "sapi_spi.h"
+
 #include "chip.h"
 
 /*==================[macros and definitions]=================================*/
@@ -56,98 +57,94 @@
 
 /*==================[external functions definition]==========================*/
 
-bool_t spiInit( spiMap_t spi )
-{
+bool_t spiInit(spiMap_t spi) {
+    bool_t retVal = TRUE;
 
-   bool_t retVal = TRUE;
+    if (spi == SPI0) {
+        // Configure SPI pins for each board
 
-   if( spi == SPI0 ) {
+#if BOARD == ciaa_nxp || edu_ciaa_nxp
+        /* Set up clock and power for SSP1 module */
+        // Configure SSP SSP1 pins
+        Chip_SCU_PinMuxSet(0xF, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC0));  // SSP1_SCK
+        Chip_SCU_PinMuxSet(0x1, 3,
+                           (SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS |
+                            SCU_MODE_FUNC5));                            // SSP1_MISO
+        Chip_SCU_PinMuxSet(0x1, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC5));  // SSP1_MOSI
 
-      // Configure SPI pins for each board
+        // Initialize SSP Peripheral
+        Chip_SSP_Init(LPC_SSP1);
+        Chip_SSP_Enable(LPC_SSP1);
+#endif
 
-      #if BOARD==ciaa_nxp||edu_ciaa_nxp
-         /* Set up clock and power for SSP1 module */
-         // Configure SSP SSP1 pins
-         Chip_SCU_PinMuxSet( 0xF, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // SSP1_SCK
-         Chip_SCU_PinMuxSet( 0x1, 3, (SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)); // SSP1_MISO
-         Chip_SCU_PinMuxSet( 0x1, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC5)); // SSP1_MOSI
+#if BOARD == ciaa_nxp
+        Chip_SCU_PinMuxSet(
+            0x6, 7,
+            (SCU_MODE_PULLUP |
+             SCU_MODE_FUNC4));  // Pin for SPI SS configured as GPIO output with pull-up
+        Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 5, 15);
+#elif BOARD == edu_ciaa_nxp
+        Chip_SCU_PinMuxSet(
+            0x6, 1,
+            (SCU_MODE_PULLUP |
+             SCU_MODE_FUNC0));  // Pin for SPI SS configured as GPIO output with pull-up
+        Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 3, 0);
+#elif BOARD == ciaa_z3r0
+#error CIAA-Z3R0
+#elif BOARD == pico_ciaa
+#error PicoCIAA
+#else
+#error BOARD compile variable must be defined
+#endif
 
-         // Initialize SSP Peripheral
-         Chip_SSP_Init( LPC_SSP1 );
-         Chip_SSP_Enable( LPC_SSP1 );
-      #endif
+    } else {
+        retVal = FALSE;
+    }
 
-      #if BOARD==ciaa_nxp
-         Chip_SCU_PinMuxSet( 0x6, 7, (SCU_MODE_PULLUP | SCU_MODE_FUNC4) ); // Pin for SPI SS configured as GPIO output with pull-up
-         Chip_GPIO_SetPinDIROutput( LPC_GPIO_PORT, 5, 15 );
-      #elif BOARD==edu_ciaa_nxp
-         Chip_SCU_PinMuxSet( 0x6, 1, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // Pin for SPI SS configured as GPIO output with pull-up
-         Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 3, 0);
-      #elif BOARD==ciaa_z3r0
-         #error CIAA-Z3R0
-      #elif BOARD==pico_ciaa
-         #error PicoCIAA
-      #else
-         #error BOARD compile variable must be defined
-      #endif
-
-   } else {
-      retVal = FALSE;
-   }
-
-   return retVal;
+    return retVal;
 }
 
+bool_t spiRead(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize) {
+    bool_t retVal = TRUE;
 
-bool_t spiRead( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize )
-{
+    Chip_SSP_DATA_SETUP_T xferConfig;
 
-   bool_t retVal = TRUE;
+    xferConfig.tx_data = NULL;
+    xferConfig.tx_cnt = 0;
+    xferConfig.rx_data = buffer;
+    xferConfig.rx_cnt = 0;
+    xferConfig.length = bufferSize;
 
-   Chip_SSP_DATA_SETUP_T xferConfig;
+    if (spi == SPI0) {
+        Chip_SSP_RWFrames_Blocking(LPC_SSP1, &xferConfig);
+    } else {
+        retVal = FALSE;
+    }
 
-   xferConfig.tx_data = NULL;
-   xferConfig.tx_cnt  = 0;
-   xferConfig.rx_data = buffer;
-   xferConfig.rx_cnt  = 0;
-   xferConfig.length  = bufferSize;
-
-   if( spi == SPI0 ) {
-      Chip_SSP_RWFrames_Blocking( LPC_SSP1, &xferConfig );
-   } else {
-      retVal = FALSE;
-   }
-
-   return retVal;
+    return retVal;
 }
 
+bool_t spiWrite(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize) {
+    bool_t retVal = TRUE;
 
-bool_t spiWrite( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
-{
+    Chip_SSP_DATA_SETUP_T xferConfig;
 
-   bool_t retVal = TRUE;
+    xferConfig.tx_data = buffer;
+    xferConfig.tx_cnt = 0;
+    xferConfig.rx_data = NULL;
+    xferConfig.rx_cnt = 0;
+    xferConfig.length = bufferSize;
 
-   Chip_SSP_DATA_SETUP_T xferConfig;
+    if (spi == SPI0) {
+        Chip_SSP_RWFrames_Blocking(LPC_SSP1, &xferConfig);
+    } else {
+        retVal = FALSE;
+    }
 
-   xferConfig.tx_data = buffer;
-   xferConfig.tx_cnt  = 0;
-   xferConfig.rx_data = NULL;
-   xferConfig.rx_cnt  = 0;
-   xferConfig.length  = bufferSize;
-
-   if( spi == SPI0 ) {
-      Chip_SSP_RWFrames_Blocking( LPC_SSP1, &xferConfig );
-   } else {
-      retVal = FALSE;
-   }
-
-   return retVal;
+    return retVal;
 }
-
 
 /*==================[ISR external functions definition]======================*/
-
-
 
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/

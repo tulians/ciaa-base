@@ -45,8 +45,8 @@ extern "C" {
 
 #define dht11Config dht11Init
 
-void dht11Init( int32_t gpio );
-bool_t dht11Read( float *phum, float *ptemp );
+void dht11Init(int32_t gpio);
+bool_t dht11Read(float *phum, float *ptemp);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

@@ -37,10 +37,10 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_keypad.h"       /* <= own header */
+#include "sapi_keypad.h" /* <= own header */
 
-#include "sapi_delay.h"               /* <= delay header */
-#include "sapi_gpio.h"                /* <= GPIO header */
+#include "sapi_delay.h" /* <= delay header */
+#include "sapi_gpio.h"  /* <= GPIO header */
 
 /*==================[macros and definitions]=================================*/
 
@@ -52,109 +52,97 @@
 
 /*==================[external data definition]===============================*/
 
-
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
 
-
 /* Configure keypad pins */
-bool_t keypadInit( keypad_t* keypad,
-                   const gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
-                   const gpioMap_t* keypadColPins, uint8_t keypadColSize )
-{
+bool_t keypadInit(keypad_t* keypad, const gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
+                  const gpioMap_t* keypadColPins, uint8_t keypadColSize) {
+    bool_t retVal = TRUE;
 
-   bool_t retVal = TRUE;
+    uint8_t i = 0;
 
-   uint8_t i = 0;
+    // Check if values are not invalid
+    if (keypadRowPins == NULL || keypadColPins == NULL || keypadRowSize <= 0 ||
+        keypadColSize <= 0) {
+        retVal = FALSE;
+    }
 
-   // Check if values are not invalid
-   if( keypadRowPins == NULL || keypadColPins == NULL ||
-       keypadRowSize <= 0 || keypadColSize <= 0  ) {
-      retVal = FALSE;
-   }
+    // Configure keypad instance
+    keypad->keypadRowPins = keypadRowPins;
+    keypad->keypadRowSize = keypadRowSize;
+    keypad->keypadColPins = keypadColPins;
+    keypad->keypadColSize = keypadColSize;
 
-   // Configure keypad instance
-   keypad->keypadRowPins = keypadRowPins;
-   keypad->keypadRowSize = keypadRowSize;
-   keypad->keypadColPins = keypadColPins;
-   keypad->keypadColSize = keypadColSize;
+    // Configure Rows as Outputs
+    for (i = 0; i < keypadRowSize; i++) {
+        gpioInit(keypad->keypadRowPins[i], GPIO_OUTPUT);
+    }
 
-   // Configure Rows as Outputs
-   for( i=0; i<keypadRowSize; i++ ) {
-      gpioInit( keypad->keypadRowPins[i], GPIO_OUTPUT );
-   }
+    // Configure Columns as Inputs with pull-up resistors enable
+    for (i = 0; i < keypadColSize; i++) {
+        gpioInit(keypad->keypadColPins[i], GPIO_INPUT_PULLUP);
+    }
 
-   // Configure Columns as Inputs with pull-up resistors enable
-   for( i=0; i<keypadColSize; i++ ) {
-      gpioInit( keypad->keypadColPins[i], GPIO_INPUT_PULLUP );
-   }
-
-   return retVal;
+    return retVal;
 }
-
 
 /* Return TRUE if any key is pressed or FALSE (0) in other cases.
  * If exist key pressed write pressed key on key variable */
-bool_t keypadRead( keypad_t* keypad, uint16_t* key )
-{
+bool_t keypadRead(keypad_t* keypad, uint16_t* key) {
+    bool_t retVal = FALSE;
 
-   bool_t retVal = FALSE;
+    uint8_t r = 0;  // Rows
+    uint8_t c = 0;  // Columns
 
-   uint8_t r = 0; // Rows
-   uint8_t c = 0; // Columns
+    // Put all Rows in LOW state
+    for (r = 0; r < keypad->keypadRowSize; r++) {
+        gpioWrite(keypad->keypadRowPins[r], LOW);
+    }
 
-   // Put all Rows in LOW state
-   for( r=0; r<keypad->keypadRowSize; r++ ) {
-      gpioWrite( keypad->keypadRowPins[r], LOW );
-   }
+    // Check all Columns to search if any key is pressed
+    for (c = 0; c < keypad->keypadColSize; c++) {
+        // If reads a LOW state in a column then that key may be pressed
+        if (!gpioRead(keypad->keypadColPins[c])) {
+            delay(50);  // Debounce 50 ms
 
-   // Check all Columns to search if any key is pressed
-   for( c=0; c<keypad->keypadColSize; c++ ) {
-
-      // If reads a LOW state in a column then that key may be pressed
-      if( !gpioRead( keypad->keypadColPins[c] ) ) {
-
-         delay( 50 ); // Debounce 50 ms
-
-         // Put all Rows in HIGH state except first one
-         for( r=1; r<keypad->keypadRowSize; r++ ) {
-            gpioWrite( keypad->keypadRowPins[r], HIGH );
-         }
-
-         // Search what key are pressed
-         for( r=0; r<keypad->keypadRowSize; r++ ) {
-
-            // Put the Row[r-1] in HIGH state and the Row[r] in LOW state
-            if( r>0 ) { // Prevents negative index in array
-               gpioWrite( keypad->keypadRowPins[r-1], HIGH );
+            // Put all Rows in HIGH state except first one
+            for (r = 1; r < keypad->keypadRowSize; r++) {
+                gpioWrite(keypad->keypadRowPins[r], HIGH);
             }
-            gpioWrite( keypad->keypadRowPins[r], LOW );
 
-            // Check Columns[c] at Row[r] to search if the key is pressed
-            // if that key is pressed (LOW state) then retuns the key
-            if( !gpioRead( keypad->keypadColPins[c] ) ) {
-               *key = (uint16_t)r * (uint16_t)(keypad->keypadColSize) + (uint16_t)c;
-               retVal = TRUE;
-               return retVal;
+            // Search what key are pressed
+            for (r = 0; r < keypad->keypadRowSize; r++) {
+                // Put the Row[r-1] in HIGH state and the Row[r] in LOW state
+                if (r > 0) {  // Prevents negative index in array
+                    gpioWrite(keypad->keypadRowPins[r - 1], HIGH);
+                }
+                gpioWrite(keypad->keypadRowPins[r], LOW);
+
+                // Check Columns[c] at Row[r] to search if the key is pressed
+                // if that key is pressed (LOW state) then retuns the key
+                if (!gpioRead(keypad->keypadColPins[c])) {
+                    *key = (uint16_t)r * (uint16_t)(keypad->keypadColSize) + (uint16_t)c;
+                    retVal = TRUE;
+                    return retVal;
+                }
             }
-         }
+        }
+    }
 
-      }
-   }
+    /*
+       4 rows * 5 columns Keypad
 
-   /*
-      4 rows * 5 columns Keypad
+          c0 c1 c2 c3 c4
+       r0  0  1  2  3  4
+       r1  5  6  7  8  9    Press r[i] c[j] => (i) * amountOfColumns + (j)
+       r2 10 11 12 13 14
+       r3 15 16 17 18 19
+    */
 
-         c0 c1 c2 c3 c4
-      r0  0  1  2  3  4
-      r1  5  6  7  8  9    Press r[i] c[j] => (i) * amountOfColumns + (j)
-      r2 10 11 12 13 14
-      r3 15 16 17 18 19
-   */
-
-   // if no key are pressed then retun FALSE
-   return retVal;
+    // if no key are pressed then retun FALSE
+    return retVal;
 }
 
 /*==================[end of file]============================================*/

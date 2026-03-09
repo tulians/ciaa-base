@@ -29,7 +29,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
 
 /* Date: 2017-30-10 */
 
@@ -51,11 +50,11 @@ extern "C" {
 
 /*==================[external functions declaration]=========================*/
 
-bool_t stdioInit( uartMap_t uartPrintf );
+bool_t stdioInit(uartMap_t uartPrintf);
 
-int stdioPrintf( uartMap_t uartPrintf, const char* format, ... );
+int stdioPrintf(uartMap_t uartPrintf, const char* format, ...);
 
-int stdioSprintf( char* out, const char* format, ... );
+int stdioSprintf(char* out, const char* format, ...);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

@@ -57,9 +57,8 @@
  * param:  void * - Not used
  * return: bool_t - Return always true
  */
-bool_t sAPI_NullFuncPtr(void *ptr)
-{
-   return 1;
+bool_t sAPI_NullFuncPtr(void *ptr) {
+    return 1;
 }
 
 /*==================[ISR external functions definition]======================*/
@@ -85,7 +84,6 @@ bool_t sAPI_NullFuncPtr(void *ptr)
    voidFunctionPointer[0] = ledB;
    voidFunctionPointer[1] = led1;
 */
-
 
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/

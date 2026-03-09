@@ -17,7 +17,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-   
+
 /*===========================================================================*/
 
 extern const uint8_t GamaBitmap[8];
@@ -30,9 +30,8 @@ extern const uint8_t SigmaBitmap[8];
 extern const uint8_t FiBitmap[8];
 extern const uint8_t PsiBitmap[8];
 extern const uint8_t OmegaBitmap[8];
-   
-extern const uint8_t NuBitmap[8];
 
+extern const uint8_t NuBitmap[8];
 
 extern lcdCustomChar_t gamaChar;
 extern lcdCustomChar_t deltaChar;
@@ -46,7 +45,6 @@ extern lcdCustomChar_t psiChar;
 extern lcdCustomChar_t omegaChar;
 
 extern lcdCustomChar_t nuChar;
-
 
 extern lcdCustomChar_t* greekChars[11];
 

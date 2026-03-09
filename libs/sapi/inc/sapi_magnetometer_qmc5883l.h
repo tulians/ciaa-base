@@ -47,26 +47,26 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define QMC5883L_ADD              0x0D
+#define QMC5883L_ADD 0x0D
 
-#define QMC5883L_REG_MODE         0x02
+#define QMC5883L_REG_MODE 0x02
 
-#define QMC5883L_REG_X_LSB        0x00
-#define QMC5883L_REG_X_MSB        0x01
+#define QMC5883L_REG_X_LSB 0x00
+#define QMC5883L_REG_X_MSB 0x01
 
-#define QMC5883L_REG_Y_LSB        0x02
-#define QMC5883L_REG_Y_MSB        0x03
+#define QMC5883L_REG_Y_LSB 0x02
+#define QMC5883L_REG_Y_MSB 0x03
 
-#define QMC5883L_REG_Z_LSB        0x04
-#define QMC5883L_REG_Z_MSB        0x05
+#define QMC5883L_REG_Z_LSB 0x04
+#define QMC5883L_REG_Z_MSB 0x05
 
-#define QMC5883L_REG_STATUS       0x06
+#define QMC5883L_REG_STATUS 0x06
 
-#define QMC5883L_REG_TEMP_LSB     0x07
-#define QMC5883L_REG_TEMP_MSB     0x08
+#define QMC5883L_REG_TEMP_LSB 0x07
+#define QMC5883L_REG_TEMP_MSB 0x08
 
-#define QMC5883L_REG_CTRL_1       0x09
-#define QMC5883L_REG_CTRL_2       0x0A
+#define QMC5883L_REG_CTRL_1 0x09
+#define QMC5883L_REG_CTRL_2 0x0A
 
 #define QMC5883L_SET_RESET_PERIOD 0x0B
 
@@ -77,21 +77,20 @@ extern "C" {
     all possible values of the MODE
     */
 typedef enum {
-   QMC5883L_standby = 0,
-   QMC5883L_continuous_measurement = 1,
-   QMC5883L_DEFAULT_mode = QMC5883L_standby
+    QMC5883L_standby = 0,
+    QMC5883L_continuous_measurement = 1,
+    QMC5883L_DEFAULT_mode = QMC5883L_standby
 } QMC5883L_mode_t;
-
 
 /** The following type represents
     all possible values of the ODR
     (Output Data Update Rate)*/
 typedef enum {
-   QMC5883L_10_Hz  = 0,
-   QMC5883L_50_Hz  = 1,
-   QMC5883L_100_Hz = 2,
-   QMC5883L_500_Hz = 3,
-   QMC5883L_DEFAULT_rate = QMC5883L_10_Hz
+    QMC5883L_10_Hz = 0,
+    QMC5883L_50_Hz = 1,
+    QMC5883L_100_Hz = 2,
+    QMC5883L_500_Hz = 3,
+    QMC5883L_DEFAULT_rate = QMC5883L_10_Hz
 } QMC5883L_rate_t;
 
 /** The following type represents
@@ -100,9 +99,9 @@ typedef enum {
      or sensitivity of the sensors)
     */
 typedef enum {
-   QMC5883L_2_Gauss = 0, /* ± 2 Ga */
-   QMC5883L_8_Gauss = 1, /* ± 8 Ga  */
-   QMC5883L_DEFAULT_gain = QMC5883L_8_Gauss
+    QMC5883L_2_Gauss = 0, /* ± 2 Ga */
+    QMC5883L_8_Gauss = 1, /* ± 8 Ga  */
+    QMC5883L_DEFAULT_gain = QMC5883L_8_Gauss
 } QMC5883L_gain_t;
 
 /** The following type represents
@@ -110,33 +109,31 @@ typedef enum {
     (Over sample Rate)
     */
 typedef enum {
-   QMC5883L_512_sample = 0,
-   QMC5883L_256_sample = 1,
-   QMC5883L_126_sample = 2,
-   QMC5883L_64_sample = 3,
-   QMC5883L_DEFAULT_sample = QMC5883L_512_sample
+    QMC5883L_512_sample = 0,
+    QMC5883L_256_sample = 1,
+    QMC5883L_126_sample = 2,
+    QMC5883L_64_sample = 3,
+    QMC5883L_DEFAULT_sample = QMC5883L_512_sample
 } QMC5883L_samples_t;
 
-
 typedef struct {
-   QMC5883L_samples_t samples; /*number of over samples averaged per measurement output.*/
+    QMC5883L_samples_t samples; /*number of over samples averaged per measurement output.*/
 
-   QMC5883L_gain_t gain; /* Gain Configuration Bits. These bits configure the gain for
-                          * the device. The gain configuration is common for all
-                          * channels.*/
+    QMC5883L_gain_t gain; /* Gain Configuration Bits. These bits configure the gain for
+                           * the device. The gain configuration is common for all
+                           * channels.*/
 
-   QMC5883L_rate_t rate; /* Data Output Rate Bits. These bits set the rate at which data
-                          * is written to all three data output registers.*/
-   QMC5883L_mode_t mode;
-
+    QMC5883L_rate_t rate; /* Data Output Rate Bits. These bits set the rate at which data
+                           * is written to all three data output registers.*/
+    QMC5883L_mode_t mode;
 
 } QMC5883L_config_t;
 
 /*==================[external functions declaration]=========================*/
 
-bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config );
-bool_t qmc5883lInit( QMC5883L_config_t config );
-bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z );
+bool_t qmc5883lPrepareDefaultInit(QMC5883L_config_t* config);
+bool_t qmc5883lInit(QMC5883L_config_t config);
+bool_t qmc5883lRead(int16_t* x, int16_t* y, int16_t* z);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

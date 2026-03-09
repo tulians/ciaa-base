@@ -51,13 +51,13 @@ extern "C" {
 
 /*==================[external functions declaration]=========================*/
 
-bool_t esp8266InitHttpServer(char * wifiName, char * wifiPass);
+bool_t esp8266InitHttpServer(char* wifiName, char* wifiPass);
 bool_t esp8266ReadHttpServer();
-bool_t esp8266WriteHttpServer(const char * webHttpHeader, char * webHttpBody, const char * webHttpEnd);
+bool_t esp8266WriteHttpServer(const char* webHttpHeader, char* webHttpBody, const char* webHttpEnd);
 
-char * esp8266GetIpAddress();
-char * esp8266GetWifiName();
-char * esp8266GetWifiPass();
+char* esp8266GetIpAddress();
+char* esp8266GetWifiName();
+char* esp8266GetWifiPass();
 uint8_t esp8266GetConnectionId();
 
 /*==================[c++]====================================================*/

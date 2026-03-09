@@ -29,7 +29,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 /* Date: 2015-09-23 */
 
 #ifndef _SAPI_DELAY_H_
@@ -47,34 +47,34 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 // Fclk = 204 MHz ==> 4.9019607843137254901960784313725 ns
-#define INACCURATE_TO_MS       20400   // Number of cycles for 1 ms
-#define INACCURATE_TO_US_x10   204     // Number of cycles for 10 ns
-#define INACCURATE_MIN_NS      4.901960849761962890625f
+#define INACCURATE_TO_MS 20400    // Number of cycles for 1 ms
+#define INACCURATE_TO_US_x10 204  // Number of cycles for 10 ns
+#define INACCURATE_MIN_NS 4.901960849761962890625f
 
 #define delayConfig delayInit
 
 /*==================[typedef]================================================*/
 
-typedef struct{
-   tick_t startTime;
-   tick_t duration;
-   bool_t running;
+typedef struct {
+    tick_t startTime;
+    tick_t duration;
+    bool_t running;
 } delay_t;
 
 /*==================[external functions declaration]=========================*/
 
 /* ---- Inaccurate Delay ---- */
-void delayInaccurateMs( tick_t delay_ms );
-void delayInaccurateUs( tick_t delay_us );
-void delayInaccurateNs( tick_t delay_ns ); // Resolution ~5 ns
+void delayInaccurateMs(tick_t delay_ms);
+void delayInaccurateUs(tick_t delay_us);
+void delayInaccurateNs(tick_t delay_ns);  // Resolution ~5 ns
 
 /* ---- Blocking Delay ---- */
-void delay( tick_t duration_ms );
+void delay(tick_t duration_ms);
 
 /* ---- Non Blocking Delay ---- */
-void delayInit( delay_t * delay, tick_t duration );
-bool_t delayRead( delay_t * delay );
-void delayWrite( delay_t * delay, tick_t duration );
+void delayInit(delay_t* delay, tick_t duration);
+bool_t delayRead(delay_t* delay);
+void delayWrite(delay_t* delay, tick_t duration);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

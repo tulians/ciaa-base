@@ -29,7 +29,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
 
 /* Date: 2017-04-17 */
 
@@ -65,8 +64,8 @@ void printHex( uint64_t number, uint8_t bitSize );
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_datatypes.h"
 #include "sapi_convert.h"
+#include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
 /*==================[c++]====================================================*/
@@ -76,34 +75,56 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define PRINT_ENTER_STRING   "\r\n"
+#define PRINT_ENTER_STRING "\r\n"
 
 // Any printer
 
-#define printlnString(printer,string);  {printString((printer),(string));\
-                                        printEnter((printer));}
+#define printlnString(printer, string)    \
+    ;                                     \
+    {                                     \
+        printString((printer), (string)); \
+        printEnter((printer));            \
+    }
 
+#define printInt(printer, number) printIntFormat((printer), (number), (DEC_FORMAT))
 
-#define printInt(printer,number)        printIntFormat((printer),(number),(DEC_FORMAT))
+#define printUInt(printer, number) printUIntFormat((printer), (number), (DEC_FORMAT))
 
-#define printUInt(printer,number)       printUIntFormat((printer),(number),(DEC_FORMAT))
+#define printlnInt(printer, number)  \
+    ;                                \
+    {                                \
+        printInt((printer), number); \
+        printEnter((printer));       \
+    }
 
-
-#define printlnInt(printer,number);     {printInt((printer),number);\
-                                        printEnter((printer));}
-
-#define printlnUInt(printer,number);    {printUInt((printer),number);\
-                                        printEnter((printer));}
+#define printlnUInt(printer, number)  \
+    ;                                 \
+    {                                 \
+        printUInt((printer), number); \
+        printEnter((printer));        \
+    }
 
 // Ver que pueden molestar dentro de un bucle!
-#define printlnIntFormat(printer,number,format);   {printIntFormat((printer),(number),(format));\
-                                                   printEnter((printer));}
+#define printlnIntFormat(printer, number, format)      \
+    ;                                                  \
+    {                                                  \
+        printIntFormat((printer), (number), (format)); \
+        printEnter((printer));                         \
+    }
 
-#define printlnUIntFormat(printer,number,format);  {printUIntFormat((printer),(number),(format));\
-                                                   printEnter((printer));}
+#define printlnUIntFormat(printer, number, format)      \
+    ;                                                   \
+    {                                                   \
+        printUIntFormat((printer), (number), (format)); \
+        printEnter((printer));                          \
+    }
 
-#define printlnHex(printer,number,bitSize);        {printHex((printer),(number),(bitSize));\
-                                                   printEnter((printer));}
+#define printlnHex(printer, number, bitSize)      \
+    ;                                             \
+    {                                             \
+        printHex((printer), (number), (bitSize)); \
+        printEnter((printer));                    \
+    }
 
 #define printInitUart printInitUart
 
@@ -116,20 +137,20 @@ typedef uartMap_t print_t;
 /*==================[external functions declaration]=========================*/
 
 // Initialize
-void printSetUart( print_t* printer, uartMap_t uart );
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate );
+void printSetUart(print_t* printer, uartMap_t uart);
+void printInitUart(print_t* printer, uartMap_t uart, uint32_t baudRate);
 
 // Print Char
-void printChar( print_t printer, const char aChar );
+void printChar(print_t printer, const char aChar);
 
 // Print String
-void printString( print_t printer, const char* string );
-void printEnter( print_t printer );
+void printString(print_t printer, const char* string);
+void printEnter(print_t printer);
 
 // Print Integer
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format );
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format );
-void printHex( print_t printer, uint64_t number, uint8_t bitSize );
+void printIntFormat(print_t printer, int64_t number, numberFormat_t format);
+void printUIntFormat(print_t printer, uint64_t number, numberFormat_t format);
+void printHex(print_t printer, uint64_t number, uint8_t bitSize);
 
 /*==================[examples]===============================================*/
 

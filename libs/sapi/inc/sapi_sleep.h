@@ -52,7 +52,7 @@ extern "C" {
  * @param  nothing
  * @return nothing
  */
-void sleepUntilNextInterrupt( void );
+void sleepUntilNextInterrupt(void);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

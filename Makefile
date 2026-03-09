@@ -228,6 +228,12 @@ size: $(TARGET)
 test:
 	@$(MAKE) -f tests/test.mk PROGRAM_PATH_AND_NAME=$(PROGRAM_PATH_AND_NAME) test
 
+# Code formatting
+format:
+	@echo Formatting code...
+	$(Q)find projects -name "*.c" -o -name "*.h" | xargs clang-format -i
+	$(Q)find libs/sapi -name "*.c" -o -name "*.h" | xargs clang-format -i
+
 # Information
 .info:
 	LANG=C $(MAKE) -B -p  -r -n
