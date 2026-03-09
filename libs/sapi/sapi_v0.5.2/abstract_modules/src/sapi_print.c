@@ -35,10 +35,10 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_print.h"     // <= own header
+#include "sapi_print.h"  // <= own header
 
-#include "sapi_convert.h"   // <= Convert header
-#include "sapi_uart.h"      // <= UART header
+#include "sapi_convert.h"  // <= Convert header
+#include "sapi_uart.h"     // <= UART header
 
 /*==================[macros and definitions]=================================*/
 
@@ -56,64 +56,51 @@
 
 // Print uart configuration
 
-void printSetUart( print_t* printer, uartMap_t uart )
-{
-   *printer = uart;
+void printSetUart(print_t* printer, uartMap_t uart) {
+    *printer = uart;
 }
 
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
-{
-   *printer = uart;
-   uartInit( uart, baudRate );
+void printInitUart(print_t* printer, uartMap_t uart, uint32_t baudRate) {
+    *printer = uart;
+    uartInit(uart, baudRate);
 }
-
 
 // Print Char
 
-void printChar( print_t printer, const char aChar )
-{
-   uartWriteByte( printer, (const uint8_t) aChar );
+void printChar(print_t printer, const char aChar) {
+    uartWriteByte(printer, (const uint8_t)aChar);
 }
 
 // Print String
 
-void printString( print_t printer, const char* string )
-{
-   uartWriteString( printer, string );
+void printString(print_t printer, const char* string) {
+    uartWriteString(printer, string);
 }
 
-void printEnter( print_t printer )
-{
-   uartWriteString( printer, PRINT_ENTER_STRING );
+void printEnter(print_t printer) {
+    uartWriteString(printer, PRINT_ENTER_STRING);
 }
-
 
 // Print Integer
 
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format )
-{
+void printIntFormat(print_t printer, int64_t number, numberFormat_t format) {
+    char strNumber[65];
 
-   char strNumber[65];
-
-   if( int64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
+    if (int64ToString(number, strNumber, format)) {
+        uartWriteString(printer, strNumber);
+    }
 }
 
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
-{
+void printUIntFormat(print_t printer, uint64_t number, numberFormat_t format) {
+    char strNumber[65];
 
-   char strNumber[65];
-
-   if( uint64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
+    if (uint64ToString(number, strNumber, format)) {
+        uartWriteString(printer, strNumber);
+    }
 }
 
-void printHex( print_t printer, uint64_t number, uint8_t bitSize )
-{
-   printString( printer, uintToAsciiHexGlobal( number, bitSize ) );
+void printHex(print_t printer, uint64_t number, uint8_t bitSize) {
+    printString(printer, uintToAsciiHexGlobal(number, bitSize));
 }
-
 
 /*==================[end of file]============================================*/

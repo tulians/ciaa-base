@@ -51,19 +51,19 @@ extern "C" {
 /*==================[external functions definition]==========================*/
 
 // Tick Initialization and rate configuration from 1 to 50 ms
-bool_t tickInit( tick_t tickRateMSvalue );
+bool_t tickInit(tick_t tickRateMSvalue);
 
 // Read Tick Counter
-tick_t tickRead( void );
+tick_t tickRead(void);
 
 // Write Tick Counter
-void tickWrite( tick_t ticks );
+void tickWrite(tick_t ticks);
 
 // Tick interrupt callback
-bool_t tickCallbackSet( callBackFuncPtr_t tickCallback, void* tickCallbackParams );
+bool_t tickCallbackSet(callBackFuncPtr_t tickCallback, void* tickCallbackParams);
 
 // Enable or disable the peripheral energy and clock
-void tickPowerSet( bool_t power );
+void tickPowerSet(bool_t power);
 
 /*==================[ISR external functions declaration]======================*/
 

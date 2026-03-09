@@ -55,50 +55,41 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 // Colores predefinidos
-typedef enum Color {
-	BLACK,
-	WHITE,
-	VIOLET,
-	RED,
-	CYAN,
-	BLUE,
-	YELLOW,
-	GREEN
-} Color_t;
+typedef enum Color { BLACK, WHITE, VIOLET, RED, CYAN, BLUE, YELLOW, GREEN } Color_t;
 
 typedef enum LedRgbMap {
-	RGB_1,
-	RGB_2,
-	RGB_3,
-	RGB_4,
-	RGB_5,
-	RGB_6,
-	RGB_7,
-	RGB_8,
-	RGB_9,
+    RGB_1,
+    RGB_2,
+    RGB_3,
+    RGB_4,
+    RGB_5,
+    RGB_6,
+    RGB_7,
+    RGB_8,
+    RGB_9,
 } LedRgbMap_t;
 
 /*==================[external functions declaration]=========================*/
 
 /** Configura los pines que se van a manejar como salidas PWM por soft. */
-bool_t rgbInit( LedRgbMap_t rgbLed, uint8_t pinRed, uint8_t pinGreen, uint8_t pinBlue );
+bool_t rgbInit(LedRgbMap_t rgbLed, uint8_t pinRed, uint8_t pinGreen, uint8_t pinBlue);
 
 /** Manda por los pines PWM uno de los posibles colores definidos en color_t*/
-void rgbWriteColor( LedRgbMap_t rgbLed, Color_t color );
+void rgbWriteColor(LedRgbMap_t rgbLed, Color_t color);
 
 /** Manda una configuracion individual de cada canal. */
-void rgbWriteRaw( LedRgbMap_t rgbLed, int8_t dutyRed, int8_t dutyGreen, int8_t dutyBlue );
+void rgbWriteRaw(LedRgbMap_t rgbLed, int8_t dutyRed, int8_t dutyGreen, int8_t dutyBlue);
 
 /** Setea el brillo sin cambiar el color (multiplica por una constante). */
-void rgbWriteBright( LedRgbMap_t rgbLed, uint32_t bright );
+void rgbWriteBright(LedRgbMap_t rgbLed, uint32_t bright);
 
-uint8_t rgbReadDutyRed( LedRgbMap_t rgbLed );
+uint8_t rgbReadDutyRed(LedRgbMap_t rgbLed);
 
-uint8_t rgbReadDutyGreen( LedRgbMap_t rgbLed );
+uint8_t rgbReadDutyGreen(LedRgbMap_t rgbLed);
 
-uint8_t rgbReadDutyBlue( LedRgbMap_t rgbLed );
+uint8_t rgbReadDutyBlue(LedRgbMap_t rgbLed);
 
-void rgbToggleLed( LedRgbMap_t rgbLed );
+void rgbToggleLed(LedRgbMap_t rgbLed);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

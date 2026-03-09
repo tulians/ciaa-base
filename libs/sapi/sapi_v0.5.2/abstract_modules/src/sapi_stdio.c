@@ -35,92 +35,83 @@
 
 #ifdef USE_TINYPRINTF
 #include "sapi_stdio.h"
+
 #include <printf.h>
 
-bool_t stdioInit( uartMap_t uartPrintf )
-{
-   return TRUE;
+bool_t stdioInit(uartMap_t uartPrintf) {
+    return TRUE;
 }
 
-static void outfunc(char c, void *arg)
-{
-   uartWriteByte((uartMap_t) arg, c);
+static void outfunc(char c, void *arg) {
+    uartWriteByte((uartMap_t)arg, c);
 }
 
-int stdioPrintf(uartMap_t uartPrintf, const char *format, ...)
-{
-   va_list args;
-   va_start(args, format);
-   int ret = vfctprintf(outfunc, (void*) uartPrintf, format, args);
-   va_end(args);
-   return ret;
+int stdioPrintf(uartMap_t uartPrintf, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int ret = vfctprintf(outfunc, (void *)uartPrintf, format, args);
+    va_end(args);
+    return ret;
 }
 
-int stdioSprintf(char *out, const char *format, ...)
-{
-   va_list args;
-   va_start(args, format);
-   int ret = vsprintf(out, format, args);
-   va_end(args);
-   return ret;
+int stdioSprintf(char *out, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int ret = vsprintf(out, format, args);
+    va_end(args);
+    return ret;
 }
 
 #else
 
 #define _GNU_SOURCE
 
+#include <stdarg.h>
+#include <stdio.h>
+
 #include "sapi_stdio.h"
 
-#include <stdio.h>
-#include <stdarg.h>
-
-static ssize_t uartfd_read(void *_cookie, char *_buf, size_t _n)
-{
-   ssize_t count = 0;
-   while (count < _n) {
-      uint8_t c;
-      if (uartReadByte((uartMap_t) _cookie, &c))
-         *_buf++ = c;
-   }
-   return count;
+static ssize_t uartfd_read(void *_cookie, char *_buf, size_t _n) {
+    ssize_t count = 0;
+    while (count < _n) {
+        uint8_t c;
+        if (uartReadByte((uartMap_t)_cookie, &c)) *_buf++ = c;
+    }
+    return count;
 }
 
-static ssize_t uartfd_write(void *_cookie, const char *_buf, size_t _n)
-{
-   uartWriteByteArray((uartMap_t) _cookie, (uint8_t*) _buf, (uint32_t) _n);
-   return _n;
+static ssize_t uartfd_write(void *_cookie, const char *_buf, size_t _n) {
+    uartWriteByteArray((uartMap_t)_cookie, (uint8_t *)_buf, (uint32_t)_n);
+    return _n;
 }
 
 static const cookie_io_functions_t uartfd_vtable = {
-   .read = uartfd_read,
-   .write = uartfd_write,
-   .seek = NULL,
-   .close = NULL,
+    .read = uartfd_read,
+    .write = uartfd_write,
+    .seek = NULL,
+    .close = NULL,
 };
 
-bool_t stdioInit( uartMap_t uartPrintf )
-{
-   return TRUE;
+bool_t stdioInit(uartMap_t uartPrintf) {
+    return TRUE;
 }
 
-int stdioPrintf(uartMap_t uartPrintf, const char *format, ...)
-{
-   va_list args;
-   va_start(args, format);
-   FILE *f = fopencookie((void*) uartPrintf, "w+", uartfd_vtable);
-   int ret = vfprintf(f, format, args);
-   fclose(f);
-   va_end(args);
-   return ret;
+int stdioPrintf(uartMap_t uartPrintf, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    FILE *f = fopencookie((void *)uartPrintf, "w+", uartfd_vtable);
+    int ret = vfprintf(f, format, args);
+    fclose(f);
+    va_end(args);
+    return ret;
 }
 
-int stdioSprintf(char *out, const char *format, ...)
-{
-   va_list args;
-   va_start(args, format);
-   int ret = vsprintf(out, format, args);
-   va_end(args);
-   return ret;
+int stdioSprintf(char *out, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int ret = vsprintf(out, format, args);
+    va_end(args);
+    return ret;
 }
 
 #endif

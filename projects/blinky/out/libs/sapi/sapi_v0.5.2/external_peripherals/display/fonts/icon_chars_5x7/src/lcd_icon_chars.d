@@ -1,10 +1,11 @@
 projects/blinky/out/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/icon_chars_5x7/src/lcd_icon_chars.o: \
  libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/icon_chars_5x7/src/lcd_icon_chars.c \
- libs/sapi//inc/sapi.h libs/sapi//inc/sapi_datatypes.h \
- libs/lpc_open//inc/chip.h libs/lpc_open//inc/sys_config.h \
- libs/lpc_open//inc/cmsis.h libs/lpc_open//inc/lpc_types.h \
- libs/lpc_open//inc/cmsis_43xx.h libs/cmsis_core//inc/core_cm4.h \
- libs/cmsis_core//inc/cmsis_version.h \
+ libs/sapi//inc/font_8bit.h libs/sapi//inc/sapi.h \
+ libs/sapi//inc/sapi_datatypes.h \
+ libs/lpc_open/inc/boards/edu_ciaa_nxp/board.h libs/lpc_open//inc/chip.h \
+ libs/lpc_open//inc/sys_config.h libs/lpc_open//inc/cmsis.h \
+ libs/lpc_open//inc/lpc_types.h libs/lpc_open//inc/cmsis_43xx.h \
+ libs/cmsis_core//inc/core_cm4.h libs/cmsis_core//inc/cmsis_version.h \
  libs/cmsis_core//inc/cmsis_compiler.h libs/cmsis_core//inc/cmsis_gcc.h \
  libs/cmsis_core//inc/mpu_armv7.h libs/lpc_open//inc/chip_lpc43xx.h \
  libs/lpc_open//inc/scu_18xx_43xx.h libs/lpc_open//inc/clock_18xx_43xx.h \
@@ -36,16 +37,15 @@ projects/blinky/out/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/ico
  libs/lpc_open//inc/usbhs_18xx_43xx.h libs/lpc_open//inc/wwdt_18xx_43xx.h \
  libs/lpc_open//inc/romapi_18xx_43xx.h libs/lpc_open//inc/iap_18xx_43xx.h \
  libs/lpc_open//inc/error.h libs/lpc_open//inc/i2cm_18xx_43xx.h \
- libs/lpc_open/inc/boards/edu_ciaa_nxp/board.h \
  libs/lpc_open//inc/board_api.h libs/lpc_open//inc/lpc_types.h \
  libs/sapi//inc/sapi_boards.h libs/sapi//inc/sapi_peripheral_map.h \
- libs/sapi//inc/sapi_board.h libs/sapi//inc/sapi_tick.h \
- libs/sapi//inc/sapi_gpio.h libs/sapi//inc/sapi_uart.h \
- libs/sapi//inc/sapi_delay.h libs/sapi//inc/sapi_adc.h \
- libs/sapi//inc/sapi_dac.h libs/sapi//inc/sapi_i2c.h \
- libs/sapi//inc/sapi_spi.h libs/sapi//inc/sapi_rtc.h \
- libs/sapi//inc/sapi_sleep.h libs/sapi//inc/sapi_cyclesCounter.h \
- libs/sapi//inc/sapi_usb_device.h libs/sapi//inc/usbd_keyboard.h \
+ libs/sapi//inc/sapi_adc.h libs/sapi//inc/sapi_board.h \
+ libs/sapi//inc/sapi_cyclesCounter.h libs/sapi//inc/sapi_dac.h \
+ libs/sapi//inc/sapi_gpio.h libs/sapi//inc/sapi_i2c.h \
+ libs/sapi//inc/sapi_rtc.h libs/sapi//inc/sapi_sleep.h \
+ libs/sapi//inc/sapi_spi.h libs/sapi//inc/sapi_tick.h \
+ libs/sapi//inc/sapi_uart.h libs/sapi//inc/sapi_delay.h \
+ libs/sapi//inc/sapi_usb_device.h libs/sapi//inc/cdc_uart.h \
  libs/sapi//inc/lpc_app_usbd_cfg.h libs/lpc_open//inc/error.h \
  libs/lpc_open//inc/usbd_rom_api.h libs/lpc_open//inc/usbd.h \
  libs/lpc_open//inc/usbd_hw.h libs/lpc_open//inc/usbd_core.h \
@@ -53,17 +53,15 @@ projects/blinky/out/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/ico
  libs/lpc_open//inc/usbd_msc.h libs/lpc_open//inc/usbd_dfuuser.h \
  libs/lpc_open//inc/usbd_dfu.h libs/lpc_open//inc/usbd_hiduser.h \
  libs/lpc_open//inc/usbd_hid.h libs/lpc_open//inc/usbd_cdcuser.h \
- libs/lpc_open//inc/usbd_cdc.h libs/sapi//inc/cdc_uart.h \
- libs/sapi//inc/sapi_stdio.h libs/sapi//inc/sapi.h \
- libs/sapi//inc/sapi_print.h libs/sapi//inc/sapi_convert.h \
- libs/sapi//inc/sapi_debugPrint.h libs/sapi//inc/sapi_consolePrint.h \
- libs/sapi//inc/sapi_pwm.h libs/sapi//inc/sapi_circularBuffer.h \
- libs/sapi//inc/sapi_button.h libs/sapi//inc/sapi_7_segment_display.h \
- libs/sapi//inc/sapi_keypad.h libs/sapi//inc/sapi_dht11.h \
- libs/sapi//inc/sapi_lcd.h libs/sapi//inc/sapi_servo.h \
- libs/sapi//inc/sapi_rgb.h libs/sapi//inc/sapi_esp8266.h \
- libs/sapi//inc/sapi_magnetometer_hmc5883l.h \
- libs/sapi//inc/sapi_magnetometer_qmc5883l.h \
- libs/sapi//inc/sapi_imu_mpu9250.h libs/sapi//inc/sapi_imu_mpu60X0.h \
- libs/sapi//inc/sapi_eeprom24xx1025.h \
- libs/sapi//inc/sapi_ultrasonic_hcsr04.h libs/sapi//inc/font_8bit.h
+ libs/lpc_open//inc/usbd_cdc.h libs/sapi//inc/usbd_keyboard.h \
+ libs/sapi//inc/sapi_button.h libs/sapi//inc/sapi_circularBuffer.h \
+ libs/sapi//inc/sapi_consolePrint.h libs/sapi//inc/sapi_print.h \
+ libs/sapi//inc/sapi_convert.h libs/sapi//inc/sapi_debugPrint.h \
+ libs/sapi//inc/sapi_pwm.h libs/sapi//inc/sapi_stdio.h \
+ libs/sapi//inc/sapi.h libs/sapi//inc/sapi_7_segment_display.h \
+ libs/sapi//inc/sapi_dht11.h libs/sapi//inc/sapi_eeprom24xx1025.h \
+ libs/sapi//inc/sapi_esp8266.h libs/sapi//inc/sapi_imu_mpu60X0.h \
+ libs/sapi//inc/sapi_imu_mpu9250.h libs/sapi//inc/sapi_keypad.h \
+ libs/sapi//inc/sapi_lcd.h libs/sapi//inc/sapi_magnetometer_hmc5883l.h \
+ libs/sapi//inc/sapi_magnetometer_qmc5883l.h libs/sapi//inc/sapi_rgb.h \
+ libs/sapi//inc/sapi_servo.h libs/sapi//inc/sapi_ultrasonic_hcsr04.h

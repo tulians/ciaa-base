@@ -56,73 +56,57 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define I2C_SOFTWARE_SDA_DIR   GPIO7
-#define I2C_SOFTWARE_SDA_IN    GPIO7
-#define I2C_SOFTWARE_SDA_OUT   GPIO7
+#define I2C_SOFTWARE_SDA_DIR GPIO7
+#define I2C_SOFTWARE_SDA_IN GPIO7
+#define I2C_SOFTWARE_SDA_OUT GPIO7
 
-#define I2C_SOFTWARE_SCL_DIR   GPIO8
-#define I2C_SOFTWARE_SCL_IN    GPIO8
-#define I2C_SOFTWARE_SCL_OUT   GPIO8
+#define I2C_SOFTWARE_SCL_DIR GPIO8
+#define I2C_SOFTWARE_SCL_IN GPIO8
+#define I2C_SOFTWARE_SCL_OUT GPIO8
 
-#define I2C_SOFTWARE           0
-#define SOFTWARE_I2C_DEBUG     0
+#define I2C_SOFTWARE 0
+#define SOFTWARE_I2C_DEBUG 0
 
 #define i2cConfig i2cInit
 
 /*==================[typedef]================================================*/
 
-#if( I2C_SOFTWARE == 1 )
-typedef enum {
-   I2C_SOFTWARE_WRITE = 0,
-   I2C_SOFTWARE_READ  = 1
-} I2C_Software_rw_t;
+#if (I2C_SOFTWARE == 1)
+typedef enum { I2C_SOFTWARE_WRITE = 0, I2C_SOFTWARE_READ = 1 } I2C_Software_rw_t;
 
-typedef enum {
-   I2C_SOFTWARE_NACK = 0,
-   I2C_SOFTWARE_ACK  = 1
-} I2C_Software_ack_t;
+typedef enum { I2C_SOFTWARE_NACK = 0, I2C_SOFTWARE_ACK = 1 } I2C_Software_ack_t;
 #endif
 
 /*==================[external functions declaration]=========================*/
 
-bool_t i2cInit( i2cMap_t i2cNumber, uint32_t clockRateHz );
+bool_t i2cInit(i2cMap_t i2cNumber, uint32_t clockRateHz);
 
-bool_t i2cRead( i2cMap_t  i2cNumber,
-                uint8_t  i2cSlaveAddress,
-                uint8_t* dataToReadBuffer,
-                uint16_t dataToReadBufferSize,
-                bool_t   sendWriteStop,
-                uint8_t* receiveDataBuffer,
-                uint16_t receiveDataBufferSize,
-                bool_t   sendReadStop );
+bool_t i2cRead(i2cMap_t i2cNumber, uint8_t i2cSlaveAddress, uint8_t* dataToReadBuffer,
+               uint16_t dataToReadBufferSize, bool_t sendWriteStop, uint8_t* receiveDataBuffer,
+               uint16_t receiveDataBufferSize, bool_t sendReadStop);
 
-bool_t i2cWrite( i2cMap_t  i2cNumber,
-                 uint8_t  i2cSlaveAddress,
-                 uint8_t* transmitDataBuffer,
-                 uint16_t transmitDataBufferSize,
-                 bool_t   sendWriteStop );
-
+bool_t i2cWrite(i2cMap_t i2cNumber, uint8_t i2cSlaveAddress, uint8_t* transmitDataBuffer,
+                uint16_t transmitDataBufferSize, bool_t sendWriteStop);
 
 // Software Master I2C
 
-#if( SOFTWARE_I2C_DEBUG == 1 )
-void i2cSoftwareMasterPinTestInit( void );
-void i2cSoftwareMasterPinTest( void );
+#if (SOFTWARE_I2C_DEBUG == 1)
+void i2cSoftwareMasterPinTestInit(void);
+void i2cSoftwareMasterPinTest(void);
 #endif
 
-#if( I2C_SOFTWARE == 1 )
-void i2cSoftwareDelay( tick_t duration );
+#if (I2C_SOFTWARE == 1)
+void i2cSoftwareDelay(tick_t duration);
 
-void i2cSoftwareMasterWriteStart( void );
+void i2cSoftwareMasterWriteStart(void);
 
-void i2cSoftwareMasterWriteStop( void );
+void i2cSoftwareMasterWriteStop(void);
 
-bool_t i2cSoftwareMasterWriteAddress( uint8_t i2cSlaveAddress,
-                                      I2C_Software_rw_t readOrWrite );
+bool_t i2cSoftwareMasterWriteAddress(uint8_t i2cSlaveAddress, I2C_Software_rw_t readOrWrite);
 
-bool_t i2cSoftwareMasterWriteByte( uint8_t dataByte );
+bool_t i2cSoftwareMasterWriteByte(uint8_t dataByte);
 
-uint8_t i2cSoftwareMasterReadByte( bool_t ack );
+uint8_t i2cSoftwareMasterReadByte(bool_t ack);
 #endif
 
 /*==================[ISR external functions declaration]=====================*/

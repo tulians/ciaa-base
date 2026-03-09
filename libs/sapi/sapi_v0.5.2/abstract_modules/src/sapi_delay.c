@@ -36,10 +36,11 @@
 /*==================[inclusions]=============================================*/
 
 #include "sapi_delay.h"
-#include "sapi_tick.h"
-#include "sapi_cyclesCounter.h"
 
 #include <math.h>
+
+#include "sapi_cyclesCounter.h"
+#include "sapi_tick.h"
 
 /*==================[macros and definitions]=================================*/
 
@@ -59,39 +60,34 @@ extern volatile tick_t tickRateMS;
 
 /* ---- Inaccurate Blocking Delay ---- */
 
-void delayInaccurateMs(tick_t delay_ms)
-{
-   volatile tick_t i;
-   volatile tick_t delay;
-   delay = INACCURATE_TO_MS * delay_ms;
-   for( i=delay; i>0; i-- );
+void delayInaccurateMs(tick_t delay_ms) {
+    volatile tick_t i;
+    volatile tick_t delay;
+    delay = INACCURATE_TO_MS * delay_ms;
+    for (i = delay; i > 0; i--);
 }
 
-void delayInaccurateUs( tick_t delay_us )
-{
-   volatile tick_t i;
-   volatile tick_t delay;
-   delay = (INACCURATE_TO_US_x10 * delay_us) / 10;
-   for( i=delay; i>0; i-- );
+void delayInaccurateUs(tick_t delay_us) {
+    volatile tick_t i;
+    volatile tick_t delay;
+    delay = (INACCURATE_TO_US_x10 * delay_us) / 10;
+    for (i = delay; i > 0; i--);
 }
 
-void delayInaccurateNs( tick_t delay_ns )
-{
-   volatile tick_t i;
-   volatile float delayF = (float)delay_ns / INACCURATE_MIN_NS;
-   for( i=(tick_t)round(delayF); i>0; i-- );
+void delayInaccurateNs(tick_t delay_ns) {
+    volatile tick_t i;
+    volatile float delayF = (float)delay_ns / INACCURATE_MIN_NS;
+    for (i = (tick_t)round(delayF); i > 0; i--);
 }
 
 /* ---- Blocking Delay ---- */
 
 // delay( 1, DELAY_US );
 
-void delay( tick_t duration_ms )
-{
-   tick_t startTime = tickRead();
-   while ( (tick_t)(tickRead() - startTime) < duration_ms/tickRateMS );
+void delay(tick_t duration_ms) {
+    tick_t startTime = tickRead();
+    while ((tick_t)(tickRead() - startTime) < duration_ms / tickRateMS);
 }
-
 
 /*
 // Solo funciona en modo debug
@@ -106,35 +102,31 @@ void delayUs(tick_t delay_us)
 }
 */
 
-
 /* ---- Non Blocking Delay ---- */
 
-void delayInit( delay_t * delay, tick_t duration )
-{
-   delay->duration = duration/tickRateMS;
-   delay->running = 0;
+void delayInit(delay_t* delay, tick_t duration) {
+    delay->duration = duration / tickRateMS;
+    delay->running = 0;
 }
 
-bool_t delayRead( delay_t * delay )
-{
-   bool_t timeArrived = 0;
+bool_t delayRead(delay_t* delay) {
+    bool_t timeArrived = 0;
 
-   if( !delay->running ) {
-      delay->startTime = tickRead();
-      delay->running = 1;
-   } else {
-      if ( (tick_t)(tickRead() - delay->startTime) >= delay->duration ) {
-         timeArrived = 1;
-         delay->running = 0;
-      }
-   }
+    if (!delay->running) {
+        delay->startTime = tickRead();
+        delay->running = 1;
+    } else {
+        if ((tick_t)(tickRead() - delay->startTime) >= delay->duration) {
+            timeArrived = 1;
+            delay->running = 0;
+        }
+    }
 
-   return timeArrived;
+    return timeArrived;
 }
 
-void delayWrite( delay_t * delay, tick_t duration )
-{
-   delay->duration = duration/tickRateMS;
+void delayWrite(delay_t* delay, tick_t duration) {
+    delay->duration = duration / tickRateMS;
 }
 
 /*==================[end of file]============================================*/

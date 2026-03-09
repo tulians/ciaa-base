@@ -29,7 +29,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
 
 /* Date: 2016-10-06 */
 
@@ -38,8 +37,8 @@
 
 /*==================[inclusions]=============================================*/
 
-//#include <stdint.h>
-#include "sapi_datatypes.h"        // data types
+// #include <stdint.h>
+#include "sapi_datatypes.h"  // data types
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
@@ -50,11 +49,13 @@ extern "C" {
 
 #define circularBufferConfig circularBufferInit
 
-#define circularBufferNew( buffName, elementSize, amountOfElements )   circularBuffer_t buffName; \
-   uint8_t buffName##_BufferMemory[ ((amountOfElements) + 1) * (elementSize) ];
+#define circularBufferNew(buffName, elementSize, amountOfElements) \
+    circularBuffer_t buffName;                                     \
+    uint8_t buffName##_BufferMemory[((amountOfElements) + 1) * (elementSize)];
 
 /*
-#define circularBufferNew( buffName, elementsSize, amountOfElements )   uint8_t buffName##_BufferMemory[ ((amountOfElements) + 1) * (elementsSize) ]; \
+#define circularBufferNew( buffName, elementsSize, amountOfElements )   uint8_t
+buffName##_BufferMemory[ ((amountOfElements) + 1) * (elementsSize) ]; \
    circularBuffer_t buffName = { .memoryAddress    = (buffName##_BufferMemory), \
                                  .amountOfElements = ((amountOfElements) + 1),  \
                                  .elementSize      = (elementsSize),            \
@@ -64,54 +65,54 @@ extern "C" {
    }
  */
 
-#define circularBufferUse( buffName );   extern circularBuffer_t buffName;
+#define circularBufferUse(buffName) \
+    ;                               \
+    extern circularBuffer_t buffName;
 
-#define circularBufferInit( buffName, elementSize, amountOfElements );   circularBuffer_Init( &(buffName), buffName##_BufferMemory, amountOfElements, elementSize );
+#define circularBufferInit(buffName, elementSize, amountOfElements) \
+    ;                                                               \
+    circularBuffer_Init(&(buffName), buffName##_BufferMemory, amountOfElements, elementSize);
 
 /*==================[typedef]================================================*/
 
 typedef enum {
-   CIRCULAR_BUFFER_NORMAL,
-   CIRCULAR_BUFFER_EMPTY,
-   CIRCULAR_BUFFER_FULL
+    CIRCULAR_BUFFER_NORMAL,
+    CIRCULAR_BUFFER_EMPTY,
+    CIRCULAR_BUFFER_FULL
 } circularBufferStatus_t;
 
-
 typedef struct {
-   uint8_t* memoryAddress;
-   uint32_t amountOfElements;
-   uint32_t elementSize;
-   uint32_t readIndex;
-   uint32_t writeIndex;
-   circularBufferStatus_t status;
-   callBackFuncPtr_t emptyBufferCallback;
-   callBackFuncPtr_t fullBufferCalback;
+    uint8_t* memoryAddress;
+    uint32_t amountOfElements;
+    uint32_t elementSize;
+    uint32_t readIndex;
+    uint32_t writeIndex;
+    circularBufferStatus_t status;
+    callBackFuncPtr_t emptyBufferCallback;
+    callBackFuncPtr_t fullBufferCalback;
 } circularBuffer_t;
 
 /*==================[external functions declaration]=========================*/
 
-void circularBuffer_Init(
-   circularBuffer_t* buffer,    // buffer structure
-   uint8_t* bufferMemory,       // buffer array of memory
-   uint32_t amountOfElements,   // amount of elements in buffer
-   uint32_t elementSize         // each element size in bytes
+void circularBuffer_Init(circularBuffer_t* buffer,   // buffer structure
+                         uint8_t* bufferMemory,      // buffer array of memory
+                         uint32_t amountOfElements,  // amount of elements in buffer
+                         uint32_t elementSize        // each element size in bytes
 );
 
 void circularBufferEmptyBufferCallbackSet(
-   circularBuffer_t* buffer,              // buffer structure
-   callBackFuncPtr_t emptyBufferCallback  // pointer to emptyBuffer function
+    circularBuffer_t* buffer,              // buffer structure
+    callBackFuncPtr_t emptyBufferCallback  // pointer to emptyBuffer function
 );
 
 void circularBufferFullBufferCallbackSet(
-   circularBuffer_t* buffer,              // buffer structure
-   callBackFuncPtr_t fullBufferCalback    // pointer to fullBuffer function
+    circularBuffer_t* buffer,            // buffer structure
+    callBackFuncPtr_t fullBufferCalback  // pointer to fullBuffer function
 );
 
-circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer,
-      uint8_t *dataByte );
+circularBufferStatus_t circularBufferRead(circularBuffer_t* buffer, uint8_t* dataByte);
 
-circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer,
-      uint8_t *dataByte );
+circularBufferStatus_t circularBufferWrite(circularBuffer_t* buffer, uint8_t* dataByte);
 
 /*==================[example]==============================================*/
 
@@ -152,37 +153,37 @@ int main( void ){
    circularBufferInit( myBuff, 1, 8 );
 
    circularBufferSetEmptyBufferCallback( &myBuff,     // buffer structure
-	                                     emptyBuff ); // pointer to emptyBuffer function
+                                             emptyBuff ); // pointer to emptyBuffer function
 
    circularBufferSetFullBufferCallback( &myBuff,      // buffer structure
-		                                fullBuff );   // pointer to fullBuffer function
+                                                fullBuff );   // pointer to fullBuffer function
 
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE )
    {
-	   if( uartReadByte( UART_DEBUG, &rxData ) ){
+           if( uartReadByte( UART_DEBUG, &rxData ) ){
 
-		  if( rxData == 'w' ){
-			 if( circularBufferWrite( &myBuff, &txData ) == CIRCULAR_BUFFER_NORMAL ){
-				uartWriteString( UART_DEBUG, "guarde un " );
-				uartWriteByte( UART_DEBUG, txData );
-				uartWriteString( UART_DEBUG, " en el buffer.\r\n" );
-				txData++;
-			 }
+                  if( rxData == 'w' ){
+                         if( circularBufferWrite( &myBuff, &txData ) == CIRCULAR_BUFFER_NORMAL ){
+                                uartWriteString( UART_DEBUG, "guarde un " );
+                                uartWriteByte( UART_DEBUG, txData );
+                                uartWriteString( UART_DEBUG, " en el buffer.\r\n" );
+                                txData++;
+                         }
 
-		  }
+                  }
 
-		  if( rxData == 'r' ){
-			 if( circularBufferRead( &myBuff, &rxData ) == CIRCULAR_BUFFER_NORMAL ){
-				uartWriteString( UART_DEBUG, "Lei un " );
-				uartWriteByte( UART_DEBUG, rxData );
-				uartWriteString( UART_DEBUG, " del buffer.\r\n" );
-			 }
-		  }
-	   }
+                  if( rxData == 'r' ){
+                         if( circularBufferRead( &myBuff, &rxData ) == CIRCULAR_BUFFER_NORMAL ){
+                                uartWriteString( UART_DEBUG, "Lei un " );
+                                uartWriteByte( UART_DEBUG, rxData );
+                                uartWriteString( UART_DEBUG, " del buffer.\r\n" );
+                         }
+                  }
+           }
 
-	   if(txData > '9')
-		  txData = '1';
+           if(txData > '9')
+                  txData = '1';
    }
 
    return 0;

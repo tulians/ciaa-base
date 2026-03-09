@@ -37,10 +37,10 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_7_segment_display.h"   /* <= own header */
+#include "sapi_7_segment_display.h" /* <= own header */
 
-#include "sapi_delay.h"               /* <= delay header */
-#include "sapi_gpio.h"                /* <= GPIO header */
+#include "sapi_delay.h" /* <= delay header */
+#include "sapi_gpio.h"  /* <= GPIO header */
 
 /*==================[macros and definitions]=================================*/
 
@@ -51,7 +51,6 @@
 /*==================[internal data definition]===============================*/
 
 /*==================[external data definition]===============================*/
-
 
 // Symbols formed by segmens
 /*
@@ -99,38 +98,37 @@
 
 */
 const uint8_t display7SegmentOutputs[26] = {
-   0b00111111, // 0
-   0b00000110, // 1
-   0b01011011, // 2
-   0b01001111, // 3
-   0b01100110, // 4
-   0b01101101, // 5
-   0b01111101, // 6
-   0b00000111, // 7
-   0b01111111, // 8
-   0b01101111, // 9
+    0b00111111,  // 0
+    0b00000110,  // 1
+    0b01011011,  // 2
+    0b01001111,  // 3
+    0b01100110,  // 4
+    0b01101101,  // 5
+    0b01111101,  // 6
+    0b00000111,  // 7
+    0b01111111,  // 8
+    0b01101111,  // 9
 
-   0b01011111, // a
-   0b01111100, // b
-   0b01011000, // c
-   0b01011110, // d
-   0b01111011, // e
-   0b01110001, // f
+    0b01011111,  // a
+    0b01111100,  // b
+    0b01011000,  // c
+    0b01011110,  // d
+    0b01111011,  // e
+    0b01110001,  // f
 
-   0b01110111, // A
-   0b00111001, // C
-   0b01111001, // E
-   0b01110110, // H
-   0b00011110, // J
-   0b00111000, // L
-   0b01110011, // P
-   0b00111110, // U
+    0b01110111,  // A
+    0b00111001,  // C
+    0b01111001,  // E
+    0b01110110,  // H
+    0b00011110,  // J
+    0b00111000,  // L
+    0b01110011,  // P
+    0b00111110,  // U
 
-   0b10000000, // .
+    0b10000000,  // .
 
-   0b00000000  // display off
+    0b00000000  // display off
 };
-
 
 /*==================[internal functions definition]==========================*/
 
@@ -153,45 +151,36 @@ const uint8_t display7SegmentOutputs[26] = {
 
            a
          -----
-	  f /     / b
-	   /  g  /
-	   -----
+          f /     / b
+           /  g  /
+           -----
        e /     / c
-	/  d  /
-	-----    O h = dp (decimal pint).
+        /  d  /
+        -----    O h = dp (decimal pint).
 
 */
-void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin )
-{
+void display7SegmentTestPins(gpioMap_t* display7SegmentPins, gpioMap_t pin) {
+    uint8_t i = 0;
 
-   uint8_t i = 0;
-
-   for(i=0; i<=7; i++) {
-      gpioWrite( display7SegmentPins[i], ON  );
-      if( i == 0 )
-         gpioWrite( pin, ON );
-      delay(1000);
-      gpioWrite( display7SegmentPins[i], OFF );
-      if( i == 0 )
-         gpioWrite( pin, OFF );
-   }
-
+    for (i = 0; i <= 7; i++) {
+        gpioWrite(display7SegmentPins[i], ON);
+        if (i == 0) gpioWrite(pin, ON);
+        delay(1000);
+        gpioWrite(display7SegmentPins[i], OFF);
+        if (i == 0) gpioWrite(pin, OFF);
+    }
 }
-
 
 /* Configure 7-segment display GPIOs as Outputs */
-void display7SegmentPinInit( gpioMap_t* display7SegmentPins )
-{
-   uint8_t i = 0;
-   for( i=0; i<=7; i++ )
-      gpioInit( display7SegmentPins[i], GPIO_OUTPUT );
+void display7SegmentPinInit(gpioMap_t* display7SegmentPins) {
+    uint8_t i = 0;
+    for (i = 0; i <= 7; i++) gpioInit(display7SegmentPins[i], GPIO_OUTPUT);
 }
 
-static void digitsWrite( gpioMap_t d, DisplayCommonType_t c, int val)
-{
-   if (c == DISP7_ANODE) // WARN: VERIFICAR
-      val = !val;
-   gpioWrite( d, val );
+static void digitsWrite(gpioMap_t d, DisplayCommonType_t c, int val) {
+    if (c == DISP7_ANODE)  // WARN: VERIFICAR
+        val = !val;
+    gpioWrite(d, val);
 }
 
 /*
@@ -210,78 +199,68 @@ typedef struct {
 } Display7Segment_t;
  */
 
-void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
-                         gpioMap_t *digits, uint8_t nDigits,
-                         DisplayCommonType_t common, uint8_t *buf)
-{
-   disp->digits = digits;
-   disp->segments = segments;
-   disp->nDigits = nDigits;
-   disp->currentDigit = 0;
-   disp->comm = common;
-   disp->buffer = buf;
-   for (int i=0; i<nDigits; i++) {
-      buf[i] = 0;
-      gpioInit( digits[i], GPIO_OUTPUT);
-      digitsWrite( digits[i], disp->comm, 0);
-   }
-   for (int i=0; i<8; i++) {
-      gpioInit( segments[i], GPIO_OUTPUT);
-      digitsWrite( segments[i], disp->comm, 0);
-   }
+void display7SegmentInit(Display7Segment_t* disp, gpioMap_t* segments, gpioMap_t* digits,
+                         uint8_t nDigits, DisplayCommonType_t common, uint8_t* buf) {
+    disp->digits = digits;
+    disp->segments = segments;
+    disp->nDigits = nDigits;
+    disp->currentDigit = 0;
+    disp->comm = common;
+    disp->buffer = buf;
+    for (int i = 0; i < nDigits; i++) {
+        buf[i] = 0;
+        gpioInit(digits[i], GPIO_OUTPUT);
+        digitsWrite(digits[i], disp->comm, 0);
+    }
+    for (int i = 0; i < 8; i++) {
+        gpioInit(segments[i], GPIO_OUTPUT);
+        digitsWrite(segments[i], disp->comm, 0);
+    }
 }
 
-void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx )
-{
-   disp->buffer[digit] = idx;
+void display7SegmentWriteIndex(Display7Segment_t* disp, uint8_t digit, uint8_t idx) {
+    disp->buffer[digit] = idx;
 }
 
-void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val )
-{
-   for (int i=0; i<disp->nDigits; i++) {
-      uint8_t digit = val % 10;
-      display7SegmentWriteIndex(disp, i, digit );
-      val /= 10;
-   }
+void display7SegmentWriteInt(Display7Segment_t* disp, uint32_t val) {
+    for (int i = 0; i < disp->nDigits; i++) {
+        uint8_t digit = val % 10;
+        display7SegmentWriteIndex(disp, i, digit);
+        val /= 10;
+    }
 }
 
-void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val )
-{
-   for (int i=0; i<disp->nDigits; i++) {
-      uint8_t nibble = (val >> (4 * i)) & 0xF;
-      display7SegmentWriteIndex(disp, i, nibble );
-   }
+void display7SegmentWriteHex(Display7Segment_t* disp, uint32_t val) {
+    for (int i = 0; i < disp->nDigits; i++) {
+        uint8_t nibble = (val >> (4 * i)) & 0xF;
+        display7SegmentWriteIndex(disp, i, nibble);
+    }
 }
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWrite( gpioMap_t* display7SegmentPins, DisplayCommonType_t c, uint8_t symbolIndex )
-{
+void display7SegmentWrite(gpioMap_t* display7SegmentPins, DisplayCommonType_t c,
+                          uint8_t symbolIndex) {
+    uint8_t i = 0;
 
-   uint8_t i = 0;
-
-   for( i=0; i<=7; i++ ) {
-      int val = display7SegmentOutputs[symbolIndex] & (1<<i);
-      if (c == DISP7_ANODE) // WARN: VERIFICAR
-         val = !val;
-      gpioWrite( display7SegmentPins[i], val );
-   }
+    for (i = 0; i <= 7; i++) {
+        int val = display7SegmentOutputs[symbolIndex] & (1 << i);
+        if (c == DISP7_ANODE)  // WARN: VERIFICAR
+            val = !val;
+        gpioWrite(display7SegmentPins[i], val);
+    }
 }
 
-void display7SegmentClear( Display7Segment_t* disp )
-{
-   for (int i=0; i<disp->nDigits; i++) {
-      disp->buffer[i] = 0;
-   }
+void display7SegmentClear(Display7Segment_t* disp) {
+    for (int i = 0; i < disp->nDigits; i++) {
+        disp->buffer[i] = 0;
+    }
 }
 
-void display7SegmentRefresh( Display7Segment_t *disp )
-{
-   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
-   disp->currentDigit++;
-   if (disp->currentDigit >= disp->nDigits)
-      disp->currentDigit = 0;
-   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
+void display7SegmentRefresh(Display7Segment_t* disp) {
+    digitsWrite(disp->digits[disp->currentDigit], disp->comm, 0);
+    disp->currentDigit++;
+    if (disp->currentDigit >= disp->nDigits) disp->currentDigit = 0;
+    digitsWrite(disp->digits[disp->currentDigit], disp->comm, 0);
 }
-
 
 /*==================[end of file]============================================*/

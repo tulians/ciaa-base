@@ -1,6 +1,7 @@
 projects/blinky/out/libs/sapi/sapi_v0.5.2/board/src/sapi_board.o: \
  libs/sapi/sapi_v0.5.2/board/src/sapi_board.c libs/sapi//inc/sapi_board.h \
- libs/sapi//inc/sapi_datatypes.h libs/lpc_open//inc/chip.h \
+ libs/sapi//inc/sapi_datatypes.h \
+ libs/lpc_open/inc/boards/edu_ciaa_nxp/board.h libs/lpc_open//inc/chip.h \
  libs/lpc_open//inc/sys_config.h libs/lpc_open//inc/cmsis.h \
  libs/lpc_open//inc/lpc_types.h libs/lpc_open//inc/cmsis_43xx.h \
  libs/cmsis_core//inc/core_cm4.h libs/cmsis_core//inc/cmsis_version.h \
@@ -35,8 +36,7 @@ projects/blinky/out/libs/sapi/sapi_v0.5.2/board/src/sapi_board.o: \
  libs/lpc_open//inc/usbhs_18xx_43xx.h libs/lpc_open//inc/wwdt_18xx_43xx.h \
  libs/lpc_open//inc/romapi_18xx_43xx.h libs/lpc_open//inc/iap_18xx_43xx.h \
  libs/lpc_open//inc/error.h libs/lpc_open//inc/i2cm_18xx_43xx.h \
- libs/lpc_open/inc/boards/edu_ciaa_nxp/board.h \
  libs/lpc_open//inc/board_api.h libs/lpc_open//inc/lpc_types.h \
- libs/sapi//inc/sapi_boards.h libs/sapi//inc/sapi_tick.h \
+ libs/sapi//inc/sapi_boards.h libs/sapi//inc/sapi_cyclesCounter.h \
  libs/sapi//inc/sapi_gpio.h libs/sapi//inc/sapi_peripheral_map.h \
- libs/sapi//inc/sapi_cyclesCounter.h
+ libs/sapi//inc/sapi_tick.h

@@ -50,22 +50,21 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 typedef struct {
-   const gpioMap_t* keypadRowPins;
-   uint8_t keypadRowSize;
-   const gpioMap_t* keypadColPins;
-   uint8_t keypadColSize;
+    const gpioMap_t* keypadRowPins;
+    uint8_t keypadRowSize;
+    const gpioMap_t* keypadColPins;
+    uint8_t keypadColSize;
 } keypad_t;
 
 /*==================[external functions declaration]=========================*/
 
 /* Configure keypad pins */
-bool_t keypadInit( keypad_t* keypad,
-                   const gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
-                   const gpioMap_t* keypadColPins, uint8_t keypadColSize );
+bool_t keypadInit(keypad_t* keypad, const gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
+                  const gpioMap_t* keypadColPins, uint8_t keypadColSize);
 
 /* Return TRUE if any key is pressed or FALSE (0) in other cases.
  * If exist key pressed write pressed key on key variable */
-bool_t keypadRead( keypad_t* keypad, uint16_t* key );
+bool_t keypadRead(keypad_t* keypad, uint16_t* key);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

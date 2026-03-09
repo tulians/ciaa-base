@@ -52,17 +52,15 @@ extern "C" {
 
 /*==================[typedef]================================================*/
 
-typedef enum {
-   DAC_ENABLE, DAC_DISABLE
-} dacInit_t;
+typedef enum { DAC_ENABLE, DAC_DISABLE } dacInit_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-void dacInit( dacInit_t config );
+void dacInit(dacInit_t config);
 
-void dacWrite( dacMap_t analogOutput, uint16_t value );
+void dacWrite(dacMap_t analogOutput, uint16_t value);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

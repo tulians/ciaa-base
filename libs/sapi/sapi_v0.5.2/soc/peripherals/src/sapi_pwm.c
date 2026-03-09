@@ -40,6 +40,7 @@
 /*==================[inclusions]=============================================*/
 
 #include "sapi_pwm.h"
+
 #include "sapi_sct.h"
 
 /*==================[macros and definitions]=================================*/
@@ -48,10 +49,10 @@
 #define EMPTY_POSITION 255
 #endif
 
-#define PWM_TOTALNUMBER   11   /* From PWM0 to PWM10 */
+#define PWM_TOTALNUMBER 11 /* From PWM0 to PWM10 */
 
-#define PWM_FREC          1000 /* 1Khz */
-#define PWM_PERIOD        1000 /* 1000uS = 1ms*/
+#define PWM_FREC 1000   /* 1Khz */
+#define PWM_PERIOD 1000 /* 1000uS = 1ms*/
 
 /*==================[internal data declaration]==============================*/
 
@@ -69,14 +70,14 @@ static void pwmInitTimers(void);
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:   True if pwm was successfully attached, False if not.
  */
-static bool_t pwmAttach( pwmMap_t pwmNumber );
+static bool_t pwmAttach(pwmMap_t pwmNumber);
 
 /*
  * @brief:   removes pwm (attached to pwmNumber) from the list
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:    True if pwm was successfully detached, False if not.
  */
-static bool_t pwmDetach( pwmMap_t pwmNumber );
+static bool_t pwmDetach(pwmMap_t pwmNumber);
 
 /*==================[internal data definition]===============================*/
 
@@ -87,33 +88,33 @@ static bool_t pwmDetach( pwmMap_t pwmNumber );
  * the signal, its necessary to connect pwm number with the SctMap_t (sAPI_PeripheralMap.h).
  * This way the user sets "pwms", while using the sct peripheral internally*/
 static const uint8_t pwmMap[PWM_TOTALNUMBER] = {
-   /* PWM0 */  CTOUT1,  /* T_FIL1 */
-   /* PWM1 */  CTOUT12, /* T_COL2 */
-   /* PWM2 */  CTOUT10, /* T_COL0 */
-   /* PWM3 */  CTOUT0,  /* T_FIL2 */
-   /* PWM4 */  CTOUT3,  /* T_FIL3 */
-   /* PWM5 */  CTOUT13, /* T_COL1 */
-   /* PWM6 */  CTOUT7,  /* GPIO8  */
-   /* PWM7 */  CTOUT2,  /* LED1   */
-   /* PWM8 */  CTOUT5,  /* LED2   */
-   /* PWM9 */  CTOUT4,  /* LED3   */
-   /* PWM10 */ CTOUT6   /* GPIO2  */
+    /* PWM0 */ CTOUT1,  /* T_FIL1 */
+    /* PWM1 */ CTOUT12, /* T_COL2 */
+    /* PWM2 */ CTOUT10, /* T_COL0 */
+    /* PWM3 */ CTOUT0,  /* T_FIL2 */
+    /* PWM4 */ CTOUT3,  /* T_FIL3 */
+    /* PWM5 */ CTOUT13, /* T_COL1 */
+    /* PWM6 */ CTOUT7,  /* GPIO8  */
+    /* PWM7 */ CTOUT2,  /* LED1   */
+    /* PWM8 */ CTOUT5,  /* LED2   */
+    /* PWM9 */ CTOUT4,  /* LED3   */
+    /* PWM10 */ CTOUT6  /* GPIO2  */
 };
 
 /*when the user adds a pwm with pwmAttach the list updates with the pin number of the element*/
 static uint8_t AttachedPWMList[PWM_TOTALNUMBER] = {
-   /*Position | Pwm Number*/
-   /*0*/  EMPTY_POSITION,
-   /*1*/  EMPTY_POSITION,
-   /*2*/  EMPTY_POSITION,
-   /*3*/  EMPTY_POSITION,
-   /*4*/  EMPTY_POSITION,
-   /*5*/  EMPTY_POSITION,
-   /*6*/  EMPTY_POSITION,
-   /*7*/  EMPTY_POSITION,
-   /*8*/  EMPTY_POSITION,
-   /*9*/	EMPTY_POSITION,
-   /*10*/ EMPTY_POSITION,
+    /*Position | Pwm Number*/
+    /*0*/ EMPTY_POSITION,
+    /*1*/ EMPTY_POSITION,
+    /*2*/ EMPTY_POSITION,
+    /*3*/ EMPTY_POSITION,
+    /*4*/ EMPTY_POSITION,
+    /*5*/ EMPTY_POSITION,
+    /*6*/ EMPTY_POSITION,
+    /*7*/ EMPTY_POSITION,
+    /*8*/ EMPTY_POSITION,
+    /*9*/ EMPTY_POSITION,
+    /*10*/ EMPTY_POSITION,
 };
 
 /*==================[internal functions definition]==========================*/
@@ -123,9 +124,8 @@ static uint8_t AttachedPWMList[PWM_TOTALNUMBER] = {
  * @param   none
  * @return   nothing
  */
-static void pwmInitTimers(void)
-{
-   Sct_Init(PWM_FREC);
+static void pwmInitTimers(void) {
+    Sct_Init(PWM_FREC);
 }
 
 /*
@@ -133,22 +133,20 @@ static void pwmInitTimers(void)
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:   True if pwm was successfully attached, False if not.
  */
-static bool_t pwmAttach( pwmMap_t pwmNumber)
-{
+static bool_t pwmAttach(pwmMap_t pwmNumber) {
+    bool_t success = FALSE;
+    uint8_t position = 0;
 
-   bool_t success = FALSE;
-   uint8_t position = 0;
-
-   position = pwmIsAttached(pwmNumber);
-   if(position==0) {
-      position = pwmIsAttached(EMPTY_POSITION); /* Searches for the first empty position */
-      if(position) { /* if position==0 => there is no room in the list for another pwm */
-         AttachedPWMList[position-1] = pwmNumber;
-         Sct_EnablePwmFor(pwmMap[pwmNumber]);
-         success = TRUE;
-      }
-   }
-   return success;
+    position = pwmIsAttached(pwmNumber);
+    if (position == 0) {
+        position = pwmIsAttached(EMPTY_POSITION); /* Searches for the first empty position */
+        if (position) { /* if position==0 => there is no room in the list for another pwm */
+            AttachedPWMList[position - 1] = pwmNumber;
+            Sct_EnablePwmFor(pwmMap[pwmNumber]);
+            success = TRUE;
+        }
+    }
+    return success;
 }
 
 /*
@@ -156,19 +154,17 @@ static bool_t pwmAttach( pwmMap_t pwmNumber)
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:    True if pwm was successfully detached, False if not.
  */
-static bool_t pwmDetach( pwmMap_t pwmNumber )
-{
+static bool_t pwmDetach(pwmMap_t pwmNumber) {
+    bool_t success = FALSE;
+    uint8_t position = 0;
 
-   bool_t success = FALSE;
-   uint8_t position = 0;
+    position = pwmIsAttached(pwmNumber);
 
-   position = pwmIsAttached(pwmNumber);
-
-   if(position) {
-      AttachedPWMList[position-1] = EMPTY_POSITION;
-      success = TRUE;
-   }
-   return success;
+    if (position) {
+        AttachedPWMList[position - 1] = EMPTY_POSITION;
+        success = TRUE;
+    }
+    return success;
 }
 
 /*==================[external functions definition]==========================*/
@@ -179,20 +175,18 @@ static bool_t pwmDetach( pwmMap_t pwmNumber )
  * @param:   value:   8bit value, from 0 to 255
  * @return:   True if the value was successfully changed, False if not.
  */
-bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t value )
-{
+bool_t pwmWrite(pwmMap_t pwmNumber, uint8_t value) {
+    bool_t success = FALSE;
+    uint8_t position = 0;
 
-   bool_t success = FALSE;
-   uint8_t position = 0;
+    position = pwmIsAttached(pwmNumber);
 
-   position = pwmIsAttached(pwmNumber);
+    if (position) {
+        Sct_SetDutyCycle(pwmMap[pwmNumber], value);
+        success = TRUE;
+    }
 
-   if(position) {
-      Sct_SetDutyCycle(pwmMap[pwmNumber], value);
-      success = TRUE;
-   }
-
-   return success;
+    return success;
 }
 
 /*
@@ -201,21 +195,18 @@ bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t value )
  * @return:   value of the pwm in the pin (0 ~ 255).
  *   If an error ocurred, return = EMPTY_POSITION = 255
  */
-uint8_t pwmRead( pwmMap_t pwmNumber )
-{
+uint8_t pwmRead(pwmMap_t pwmNumber) {
+    uint8_t position = 0, value = 0;
+    position = pwmIsAttached(pwmNumber);
 
-   uint8_t position = 0, value = 0;
-   position = pwmIsAttached(pwmNumber);
+    if (position) {
+        value = Sct_GetDutyCycle(pwmMap[pwmNumber]);
+    } else {
+        value = EMPTY_POSITION;
+    }
 
-   if(position) {
-      value = Sct_GetDutyCycle(pwmMap[pwmNumber]);
-   } else {
-      value = EMPTY_POSITION;
-   }
-
-   return value;
+    return value;
 }
-
 
 /*
  * @Brief: Initializes the pwm peripheral.
@@ -223,35 +214,32 @@ uint8_t pwmRead( pwmMap_t pwmNumber )
  * @param  uint8_t config
  * @return bool_t true (1) if config it is ok
  */
-bool_t pwmInit( pwmMap_t pwmNumber, pwmInit_t config)
-{
+bool_t pwmInit(pwmMap_t pwmNumber, pwmInit_t config) {
+    bool_t ret_val = 1;
 
-   bool_t ret_val = 1;
+    switch (config) {
+        case PWM_ENABLE:
+            pwmInitTimers();
+            break;
 
-   switch(config) {
+        case PWM_DISABLE:
+            ret_val = 0;
+            break;
 
-   case PWM_ENABLE:
-      pwmInitTimers();
-      break;
+        case PWM_ENABLE_OUTPUT:
+            ret_val = pwmAttach(pwmNumber);
+            break;
 
-   case PWM_DISABLE:
-      ret_val = 0;
-      break;
+        case PWM_DISABLE_OUTPUT:
+            ret_val = pwmDetach(pwmNumber);
+            break;
 
-   case PWM_ENABLE_OUTPUT:
-      ret_val = pwmAttach( pwmNumber );
-      break;
+        default:
+            ret_val = 0;
+            break;
+    }
 
-   case PWM_DISABLE_OUTPUT:
-      ret_val = pwmDetach( pwmNumber );
-      break;
-
-   default:
-      ret_val = 0;
-      break;
-   }
-
-   return ret_val;
+    return ret_val;
 }
 
 /*
@@ -259,21 +247,19 @@ bool_t pwmInit( pwmMap_t pwmNumber, pwmInit_t config)
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:   position (1 ~ PWM_TOTALNUMBER), 0 if the element was not found.
  */
-uint8_t pwmIsAttached( pwmMap_t pwmNumber )
-{
-   uint8_t position = 0, positionInList = 0;
-   while ( (position < PWM_TOTALNUMBER) &&
-           (pwmNumber != AttachedPWMList[position]) ) {
-      position++;
-   }
+uint8_t pwmIsAttached(pwmMap_t pwmNumber) {
+    uint8_t position = 0, positionInList = 0;
+    while ((position < PWM_TOTALNUMBER) && (pwmNumber != AttachedPWMList[position])) {
+        position++;
+    }
 
-   if (position < PWM_TOTALNUMBER) {
-      positionInList = position + 1;
-   } else {
-      positionInList = 0;
-   }
+    if (position < PWM_TOTALNUMBER) {
+        positionInList = position + 1;
+    } else {
+        positionInList = 0;
+    }
 
-   return positionInList;
+    return positionInList;
 }
 
 /*==================[end of file]============================================*/

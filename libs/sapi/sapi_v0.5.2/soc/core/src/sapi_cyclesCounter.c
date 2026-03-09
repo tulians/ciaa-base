@@ -46,11 +46,11 @@
 
 /** Registros correspondientes al nucleo. Probados con Cortex-M3 y Cortex-M4. */
 
-//Registro para configurar el contador de ciclos de clock.
-//volatile uint32_t* DWT_CTRL   = (uint32_t*)0xE0001000;
+// Registro para configurar el contador de ciclos de clock.
+// volatile uint32_t* DWT_CTRL   = (uint32_t*)0xE0001000;
 
-//Registro donde se cuentan los ciclos de clock.
-//volatile uint32_t* DWT_CYCCNT = (uint32_t*)0xE0001004;
+// Registro donde se cuentan los ciclos de clock.
+// volatile uint32_t* DWT_CYCCNT = (uint32_t*)0xE0001004;
 
 /*==================[internal functions declaration]=========================*/
 
@@ -68,13 +68,12 @@ static uint32_t ClockSpeed = EDU_CIAA_NXP_CLOCK_SPEED;
  * Funcion para configurar los registros para contar ciclos de clock.
  * @return TRUE si esta OK, FALSE en caso de error.
  */
-bool_t cyclesCounterInit( uint32_t clockSpeed )
-{
-   //Asigna  a la variable local ClockSpeed el valor recibido como argumento.
-   ClockSpeed = clockSpeed;
-   //Iniciar el contador de ciclos de clock.
-   DWT_CTRL  |= 1; // *DWT_CTRL  |= 1;
-   return TRUE;
+bool_t cyclesCounterInit(uint32_t clockSpeed) {
+    // Asigna  a la variable local ClockSpeed el valor recibido como argumento.
+    ClockSpeed = clockSpeed;
+    // Iniciar el contador de ciclos de clock.
+    DWT_CTRL |= 1;  // *DWT_CTRL  |= 1;
+    return TRUE;
 }
 
 /**
@@ -103,8 +102,6 @@ void cyclesCounterReset( void )
 }
 */
 
-
-
 /**
  * Funcion que convierte el valor en ciclos a nano segundos.
  * Para que esta cuenta se realice correctamente, se tuvo que haber
@@ -112,13 +109,11 @@ void cyclesCounterReset( void )
  * @param cycles la cantidad de ciclos.
  * @return el valor convertido a nano segundos.
  */
-float cyclesCounterToNs( uint32_t cycles )
-{
-   float valueInNanoSeconds = 0.0;
-   valueInNanoSeconds = (float)cycles/((float)ClockSpeed/1000000000.0);
-   return valueInNanoSeconds;
+float cyclesCounterToNs(uint32_t cycles) {
+    float valueInNanoSeconds = 0.0;
+    valueInNanoSeconds = (float)cycles / ((float)ClockSpeed / 1000000000.0);
+    return valueInNanoSeconds;
 }
-
 
 /**
  * Funcion que convierte el valor en ciclos a micro segundos.
@@ -127,11 +122,10 @@ float cyclesCounterToNs( uint32_t cycles )
  * @param cycles la cantidad de ciclos.
  * @return el valor convertido a micro segundos.
  */
-float cyclesCounterToUs( uint32_t cycles )
-{
-   float valueInMicroSeconds = 0.0;
-   valueInMicroSeconds = (float)cycles/((float)ClockSpeed/1000000.0);
-   return valueInMicroSeconds;
+float cyclesCounterToUs(uint32_t cycles) {
+    float valueInMicroSeconds = 0.0;
+    valueInMicroSeconds = (float)cycles / ((float)ClockSpeed / 1000000.0);
+    return valueInMicroSeconds;
 }
 
 /**
@@ -141,11 +135,10 @@ float cyclesCounterToUs( uint32_t cycles )
  * @param cycles la cantidad de ciclos.
  * @return el valor convertido a mili segundos.
  */
-float cyclesCounterToMs( uint32_t cycles )
-{
-   float valueInMilliSeconds = 0.0;
-   valueInMilliSeconds = (float)cycles/((float)ClockSpeed/1000.0);
-   return valueInMilliSeconds;
+float cyclesCounterToMs(uint32_t cycles) {
+    float valueInMilliSeconds = 0.0;
+    valueInMilliSeconds = (float)cycles / ((float)ClockSpeed / 1000.0);
+    return valueInMilliSeconds;
 }
 
 /*==================[end of file]============================================*/

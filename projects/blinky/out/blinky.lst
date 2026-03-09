@@ -56,29 +56,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS
  18 .noinit       00000000  10000070  10000070  00000000  2**2
                   ALLOC
- 19 .debug_info   00011a6e  00000000  00000000  00003048  2**0
+ 19 .debug_info   00011a6d  00000000  00000000  00003048  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_abbrev 00003253  00000000  00000000  00014ab6  2**0
+ 20 .debug_abbrev 00003253  00000000  00000000  00014ab5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_loclists 000051e4  00000000  00000000  00017d09  2**0
+ 21 .debug_loclists 000051e4  00000000  00000000  00017d08  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  22 .debug_aranges 00000898  00000000  00000000  0001cef0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  23 .debug_rnglists 000006df  00000000  00000000  0001d788  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .debug_macro  0000a59e  00000000  00000000  0001de67  2**0
+ 24 .debug_macro  0000a5c2  00000000  00000000  0001de67  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 25 .debug_line   0000c502  00000000  00000000  00028405  2**0
+ 25 .debug_line   0000c4f6  00000000  00000000  00028429  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 26 .debug_str    00027437  00000000  00000000  00034907  2**0
+ 26 .debug_str    0002747b  00000000  00000000  0003491f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 27 .comment      00000026  00000000  00000000  0005bd3e  2**0
+ 27 .comment      00000026  00000000  00000000  0005bd9a  2**0
                   CONTENTS, READONLY
- 28 .ARM.attributes 00000032  00000000  00000000  0005bd64  2**0
+ 28 .ARM.attributes 00000032  00000000  00000000  0005bdc0  2**0
                   CONTENTS, READONLY
- 29 .debug_frame  000013a4  00000000  00000000  0005bd98  2**2
+ 29 .debug_frame  000013a4  00000000  00000000  0005bdf4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 30 .debug_line_str 000000a3  00000000  00000000  0005d13c  2**0
+ 30 .debug_line_str 000000a3  00000000  00000000  0005d198  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 SYMBOL TABLE:
 1a000000 l    d  .text	00000000 .text
@@ -3143,21 +3143,21 @@ __STATIC_INLINE uint32_t SCB_GetFPUType(void)
 1a0010d8:	e000ed00 	.word	0xe000ed00
 
 1a0010dc <cyclesCounterInit>:
+ * Funcion para configurar los registros para contar ciclos de clock.
  * @return TRUE si esta OK, FALSE en caso de error.
  */
-bool_t cyclesCounterInit( uint32_t clockSpeed )
-{
-   //Asigna  a la variable local ClockSpeed el valor recibido como argumento.
-   ClockSpeed = clockSpeed;
+bool_t cyclesCounterInit(uint32_t clockSpeed) {
+    // Asigna  a la variable local ClockSpeed el valor recibido como argumento.
+    ClockSpeed = clockSpeed;
 1a0010dc:	4b04      	ldr	r3, [pc, #16]	@ (1a0010f0 <cyclesCounterInit+0x14>)
 1a0010de:	6018      	str	r0, [r3, #0]
-   //Iniciar el contador de ciclos de clock.
-   DWT_CTRL  |= 1; // *DWT_CTRL  |= 1;
+    // Iniciar el contador de ciclos de clock.
+    DWT_CTRL |= 1;  // *DWT_CTRL  |= 1;
 1a0010e0:	4a04      	ldr	r2, [pc, #16]	@ (1a0010f4 <cyclesCounterInit+0x18>)
 1a0010e2:	6813      	ldr	r3, [r2, #0]
 1a0010e4:	f043 0301 	orr.w	r3, r3, #1
 1a0010e8:	6013      	str	r3, [r2, #0]
-   return TRUE;
+    return TRUE;
 }
 1a0010ea:	2001      	movs	r0, #1
 1a0010ec:	4770      	bx	lr
@@ -3166,31 +3166,30 @@ bool_t cyclesCounterInit( uint32_t clockSpeed )
 1a0010f4:	e0001000 	.word	0xe0001000
 
 1a0010f8 <gpioObtainPinInit>:
+/*==================[external data definition]===============================*/
 
-static void gpioObtainPinInit( gpioMap_t pin,
-                               int8_t *pinNamePort, int8_t *pinNamePin,
-                               int8_t *func, int8_t *gpioPort,
-                               int8_t *gpioPin )
-{
+/*==================[internal functions definition]==========================*/
+
+static void gpioObtainPinInit(gpioMap_t pin, int8_t *pinNamePort, int8_t *pinNamePin, int8_t *func,
+                              int8_t *gpioPort, int8_t *gpioPin) {
 1a0010f8:	b410      	push	{r4}
-
-   *pinNamePort = gpioPinsInit[pin].pinName.port;
+    *pinNamePort = gpioPinsInit[pin].pinName.port;
 1a0010fa:	4c0c      	ldr	r4, [pc, #48]	@ (1a00112c <gpioObtainPinInit+0x34>)
 1a0010fc:	eb00 0080 	add.w	r0, r0, r0, lsl #2
 1a001100:	eb04 0c00 	add.w	ip, r4, r0
 1a001104:	5620      	ldrsb	r0, [r4, r0]
 1a001106:	7008      	strb	r0, [r1, #0]
-   *pinNamePin  = gpioPinsInit[pin].pinName.pin;
+    *pinNamePin = gpioPinsInit[pin].pinName.pin;
 1a001108:	f99c 1001 	ldrsb.w	r1, [ip, #1]
 1a00110c:	7011      	strb	r1, [r2, #0]
-   *func        = gpioPinsInit[pin].func;
+    *func = gpioPinsInit[pin].func;
 1a00110e:	f99c 2002 	ldrsb.w	r2, [ip, #2]
 1a001112:	701a      	strb	r2, [r3, #0]
-   *gpioPort    = gpioPinsInit[pin].gpio.port;
+    *gpioPort = gpioPinsInit[pin].gpio.port;
 1a001114:	f99c 2003 	ldrsb.w	r2, [ip, #3]
 1a001118:	9b01      	ldr	r3, [sp, #4]
 1a00111a:	701a      	strb	r2, [r3, #0]
-   *gpioPin     = gpioPinsInit[pin].gpio.pin;
+    *gpioPin = gpioPinsInit[pin].gpio.pin;
 1a00111c:	f99c 2004 	ldrsb.w	r2, [ip, #4]
 1a001120:	9b02      	ldr	r3, [sp, #8]
 1a001122:	701a      	strb	r2, [r3, #0]
@@ -3204,40 +3203,39 @@ static void gpioObtainPinInit( gpioMap_t pin,
 
 /*==================[external functions definition]==========================*/
 
-bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
-{
-   if( pin == VCC ){
+bool_t gpioInit(gpioMap_t pin, gpioInit_t config) {
+    if (pin == VCC) {
 1a001130:	f110 0f02 	cmn.w	r0, #2
 1a001134:	f000 80cb 	beq.w	1a0012ce <gpioInit+0x19e>
-{
+bool_t gpioInit(gpioMap_t pin, gpioInit_t config) {
 1a001138:	b530      	push	{r4, r5, lr}
 1a00113a:	b085      	sub	sp, #20
 1a00113c:	460c      	mov	r4, r1
-	  return FALSE;
-   }
-   if( pin == GND ){
+        return FALSE;
+    }
+    if (pin == GND) {
 1a00113e:	f1b0 3fff 	cmp.w	r0, #4294967295	@ 0xffffffff
 1a001142:	f000 80c6 	beq.w	1a0012d2 <gpioInit+0x1a2>
-	  return FALSE;
-   }
+        return FALSE;
+    }
 
-   bool_t ret_val     = 1;
+    bool_t ret_val = 1;
 
-   int8_t pinNamePort = 0;
+    int8_t pinNamePort = 0;
 1a001146:	2300      	movs	r3, #0
 1a001148:	f88d 300f 	strb.w	r3, [sp, #15]
-   int8_t pinNamePin  = 0;
+    int8_t pinNamePin = 0;
 1a00114c:	f88d 300e 	strb.w	r3, [sp, #14]
 
-   int8_t func        = 0;
+    int8_t func = 0;
 1a001150:	f88d 300d 	strb.w	r3, [sp, #13]
 
-   int8_t gpioPort    = 0;
+    int8_t gpioPort = 0;
 1a001154:	f88d 300c 	strb.w	r3, [sp, #12]
-   int8_t gpioPin     = 0;
+    int8_t gpioPin = 0;
 1a001158:	f88d 300b 	strb.w	r3, [sp, #11]
 
-   gpioObtainPinInit( pin, &pinNamePort, &pinNamePin, &func,
+    gpioObtainPinInit(pin, &pinNamePort, &pinNamePin, &func, &gpioPort, &gpioPin);
 1a00115c:	f10d 030b 	add.w	r3, sp, #11
 1a001160:	9301      	str	r3, [sp, #4]
 1a001162:	ab03      	add	r3, sp, #12
@@ -3246,27 +3244,25 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00116a:	f10d 020e 	add.w	r2, sp, #14
 1a00116e:	f10d 010f 	add.w	r1, sp, #15
 1a001172:	f7ff ffc1 	bl	1a0010f8 <gpioObtainPinInit>
-                      &gpioPort, &gpioPin );
 
-   switch(config) {
+    switch (config) {
 1a001176:	2c05      	cmp	r4, #5
 1a001178:	f200 80ae 	bhi.w	1a0012d8 <gpioInit+0x1a8>
 1a00117c:	e8df f004 	tbb	[pc, r4]
 1a001180:	46278408 	.word	0x46278408
 1a001184:	0365      	.short	0x0365
-
-   case GPIO_ENABLE:
-      /* Initializes GPIO */
-      Chip_GPIO_Init(LPC_GPIO_PORT);
+        case GPIO_ENABLE:
+            /* Initializes GPIO */
+            Chip_GPIO_Init(LPC_GPIO_PORT);
 1a001186:	4855      	ldr	r0, [pc, #340]	@ (1a0012dc <gpioInit+0x1ac>)
 1a001188:	f7ff fdaa 	bl	1a000ce0 <Chip_GPIO_Init>
-   bool_t ret_val     = 1;
+    bool_t ret_val = 1;
 1a00118c:	2001      	movs	r0, #1
-      break;
+            break;
 1a00118e:	e0a1      	b.n	1a0012d4 <gpioInit+0x1a4>
 
-   case GPIO_INPUT:
-      Chip_SCU_PinMux(
+        case GPIO_INPUT:
+            Chip_SCU_PinMux(pinNamePort, pinNamePin,
 1a001190:	f89d 100f 	ldrb.w	r1, [sp, #15]
 1a001194:	f89d 200e 	ldrb.w	r2, [sp, #14]
 1a001198:	f99d 300d 	ldrsb.w	r3, [sp, #13]
@@ -3276,12 +3272,8 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a0011a2:	eb02 1241 	add.w	r2, r2, r1, lsl #5
 1a0011a6:	494e      	ldr	r1, [pc, #312]	@ (1a0012e0 <gpioInit+0x1b0>)
 1a0011a8:	f841 3022 	str.w	r3, [r1, r2, lsl #2]
-         pinNamePort,
-         pinNamePin,
-         SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS,
-         func
-      );
-      Chip_GPIO_SetDir( LPC_GPIO_PORT, gpioPort, ( 1 << gpioPin ), GPIO_INPUT );
+                            SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS, func);
+            Chip_GPIO_SetDir(LPC_GPIO_PORT, gpioPort, (1 << gpioPin), GPIO_INPUT);
 1a0011ac:	f89d 300c 	ldrb.w	r3, [sp, #12]
 1a0011b0:	f99d 100b 	ldrsb.w	r1, [sp, #11]
 1a0011b4:	2001      	movs	r0, #1
@@ -3297,11 +3289,11 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a0011c0:	f854 2023 	ldr.w	r2, [r4, r3, lsl #2]
 1a0011c4:	ea22 0201 	bic.w	r2, r2, r1
 1a0011c8:	f844 2023 	str.w	r2, [r4, r3, lsl #2]
-      break;
+            break;
 1a0011cc:	e082      	b.n	1a0012d4 <gpioInit+0x1a4>
 
-   case GPIO_INPUT_PULLUP:
-      Chip_SCU_PinMux(
+        case GPIO_INPUT_PULLUP:
+            Chip_SCU_PinMux(pinNamePort, pinNamePin,
 1a0011ce:	f89d 100f 	ldrb.w	r1, [sp, #15]
 1a0011d2:	f89d 200e 	ldrb.w	r2, [sp, #14]
 1a0011d6:	f99d 300d 	ldrsb.w	r3, [sp, #13]
@@ -3310,12 +3302,8 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a0011e0:	eb02 1241 	add.w	r2, r2, r1, lsl #5
 1a0011e4:	493e      	ldr	r1, [pc, #248]	@ (1a0012e0 <gpioInit+0x1b0>)
 1a0011e6:	f841 3022 	str.w	r3, [r1, r2, lsl #2]
-         pinNamePort,
-         pinNamePin,
-         SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS,
-         func
-      );
-      Chip_GPIO_SetDir( LPC_GPIO_PORT, gpioPort, ( 1 << gpioPin ), GPIO_INPUT );
+                            SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS, func);
+            Chip_GPIO_SetDir(LPC_GPIO_PORT, gpioPort, (1 << gpioPin), GPIO_INPUT);
 1a0011ea:	f89d 300c 	ldrb.w	r3, [sp, #12]
 1a0011ee:	f99d 100b 	ldrsb.w	r1, [sp, #11]
 1a0011f2:	2001      	movs	r0, #1
@@ -3325,11 +3313,11 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a0011fe:	f854 2023 	ldr.w	r2, [r4, r3, lsl #2]
 1a001202:	ea22 0201 	bic.w	r2, r2, r1
 1a001206:	f844 2023 	str.w	r2, [r4, r3, lsl #2]
-      break;
+            break;
 1a00120a:	e063      	b.n	1a0012d4 <gpioInit+0x1a4>
 
-   case GPIO_INPUT_PULLDOWN:
-      Chip_SCU_PinMux(
+        case GPIO_INPUT_PULLDOWN:
+            Chip_SCU_PinMux(pinNamePort, pinNamePin,
 1a00120c:	f89d 100f 	ldrb.w	r1, [sp, #15]
 1a001210:	f89d 200e 	ldrb.w	r2, [sp, #14]
 1a001214:	f99d 300d 	ldrsb.w	r3, [sp, #13]
@@ -3338,12 +3326,8 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00121e:	eb02 1241 	add.w	r2, r2, r1, lsl #5
 1a001222:	492f      	ldr	r1, [pc, #188]	@ (1a0012e0 <gpioInit+0x1b0>)
 1a001224:	f841 3022 	str.w	r3, [r1, r2, lsl #2]
-         pinNamePort,
-         pinNamePin,
-         SCU_MODE_PULLDOWN | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS,
-         func
-      );
-      Chip_GPIO_SetDir( LPC_GPIO_PORT, gpioPort, ( 1 << gpioPin ), GPIO_INPUT );
+                            SCU_MODE_PULLDOWN | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS, func);
+            Chip_GPIO_SetDir(LPC_GPIO_PORT, gpioPort, (1 << gpioPin), GPIO_INPUT);
 1a001228:	f89d 300c 	ldrb.w	r3, [sp, #12]
 1a00122c:	f99d 100b 	ldrsb.w	r1, [sp, #11]
 1a001230:	2001      	movs	r0, #1
@@ -3353,10 +3337,10 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00123c:	f854 2023 	ldr.w	r2, [r4, r3, lsl #2]
 1a001240:	ea22 0201 	bic.w	r2, r2, r1
 1a001244:	f844 2023 	str.w	r2, [r4, r3, lsl #2]
-      break;
+            break;
 1a001248:	e044      	b.n	1a0012d4 <gpioInit+0x1a4>
-   case GPIO_INPUT_PULLUP_PULLDOWN:
-      Chip_SCU_PinMux(
+        case GPIO_INPUT_PULLUP_PULLDOWN:
+            Chip_SCU_PinMux(pinNamePort, pinNamePin,
 1a00124a:	f89d 100f 	ldrb.w	r1, [sp, #15]
 1a00124e:	f89d 200e 	ldrb.w	r2, [sp, #14]
 1a001252:	f99d 300d 	ldrsb.w	r3, [sp, #13]
@@ -3365,12 +3349,8 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00125c:	eb02 1241 	add.w	r2, r2, r1, lsl #5
 1a001260:	491f      	ldr	r1, [pc, #124]	@ (1a0012e0 <gpioInit+0x1b0>)
 1a001262:	f841 3022 	str.w	r3, [r1, r2, lsl #2]
-         pinNamePort,
-         pinNamePin,
-         SCU_MODE_REPEATER | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS,
-         func
-      );
-      Chip_GPIO_SetDir( LPC_GPIO_PORT, gpioPort, ( 1 << gpioPin ), GPIO_INPUT );
+                            SCU_MODE_REPEATER | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS, func);
+            Chip_GPIO_SetDir(LPC_GPIO_PORT, gpioPort, (1 << gpioPin), GPIO_INPUT);
 1a001266:	f89d 300c 	ldrb.w	r3, [sp, #12]
 1a00126a:	f99d 100b 	ldrsb.w	r1, [sp, #11]
 1a00126e:	2001      	movs	r0, #1
@@ -3380,11 +3360,11 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00127a:	f854 2023 	ldr.w	r2, [r4, r3, lsl #2]
 1a00127e:	ea22 0201 	bic.w	r2, r2, r1
 1a001282:	f844 2023 	str.w	r2, [r4, r3, lsl #2]
-      break;
+            break;
 1a001286:	e025      	b.n	1a0012d4 <gpioInit+0x1a4>
 
-   case GPIO_OUTPUT:
-      Chip_SCU_PinMux(
+        case GPIO_OUTPUT:
+            Chip_SCU_PinMux(pinNamePort, pinNamePin,
 1a001288:	f89d 100f 	ldrb.w	r1, [sp, #15]
 1a00128c:	f89d 200e 	ldrb.w	r2, [sp, #14]
 1a001290:	f99d 300d 	ldrsb.w	r3, [sp, #13]
@@ -3393,12 +3373,8 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a00129a:	eb02 1241 	add.w	r2, r2, r1, lsl #5
 1a00129e:	4910      	ldr	r1, [pc, #64]	@ (1a0012e0 <gpioInit+0x1b0>)
 1a0012a0:	f841 3022 	str.w	r3, [r1, r2, lsl #2]
-         pinNamePort,
-         pinNamePin,
-         SCU_MODE_INACT | SCU_MODE_ZIF_DIS | SCU_MODE_INBUFF_EN,
-         func
-      );
-      Chip_GPIO_SetDir( LPC_GPIO_PORT, gpioPort, ( 1 << gpioPin ), GPIO_OUTPUT );
+                            SCU_MODE_INACT | SCU_MODE_ZIF_DIS | SCU_MODE_INBUFF_EN, func);
+            Chip_GPIO_SetDir(LPC_GPIO_PORT, gpioPort, (1 << gpioPin), GPIO_OUTPUT);
 1a0012a4:	f89d 000c 	ldrb.w	r0, [sp, #12]
 1a0012a8:	f99d 100b 	ldrsb.w	r1, [sp, #11]
 1a0012ac:	2201      	movs	r2, #1
@@ -3409,31 +3385,31 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 1a0012b6:	f853 502c 	ldr.w	r5, [r3, ip, lsl #2]
 1a0012ba:	432a      	orrs	r2, r5
 1a0012bc:	f843 202c 	str.w	r2, [r3, ip, lsl #2]
-      Chip_GPIO_SetPinState( LPC_GPIO_PORT, gpioPort, gpioPin, 0);
+            Chip_GPIO_SetPinState(LPC_GPIO_PORT, gpioPort, gpioPin, 0);
 1a0012c0:	b2c9      	uxtb	r1, r1
 	pGPIO->B[port][pin] = setting;
 1a0012c2:	eb03 1340 	add.w	r3, r3, r0, lsl #5
 1a0012c6:	2200      	movs	r2, #0
 1a0012c8:	545a      	strb	r2, [r3, r1]
-   bool_t ret_val     = 1;
+    bool_t ret_val = 1;
 1a0012ca:	4620      	mov	r0, r4
 }
 1a0012cc:	e002      	b.n	1a0012d4 <gpioInit+0x1a4>
-	  return FALSE;
+        return FALSE;
 1a0012ce:	2000      	movs	r0, #0
-      break;
-   }
+            ret_val = 0;
+            break;
+    }
 
-   return ret_val;
-
+    return ret_val;
 }
 1a0012d0:	4770      	bx	lr
-	  return FALSE;
+        return FALSE;
 1a0012d2:	2000      	movs	r0, #0
 }
 1a0012d4:	b005      	add	sp, #20
 1a0012d6:	bd30      	pop	{r4, r5, pc}
-   switch(config) {
+    switch (config) {
 1a0012d8:	2000      	movs	r0, #0
 1a0012da:	e7fb      	b.n	1a0012d4 <gpioInit+0x1a4>
 1a0012dc:	400f4000 	.word	0x400f4000
@@ -3441,41 +3417,39 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 
 1a0012e4 <gpioWrite>:
 
-
-bool_t gpioWrite( gpioMap_t pin, bool_t value )
-{
-   if( pin == VCC ){
+bool_t gpioWrite(gpioMap_t pin, bool_t value) {
+    if (pin == VCC) {
 1a0012e4:	f110 0f02 	cmn.w	r0, #2
 1a0012e8:	d02d      	beq.n	1a001346 <gpioWrite+0x62>
-{
+bool_t gpioWrite(gpioMap_t pin, bool_t value) {
 1a0012ea:	b510      	push	{r4, lr}
 1a0012ec:	b084      	sub	sp, #16
 1a0012ee:	460c      	mov	r4, r1
-	  return FALSE;
-   }
-   if( pin == GND ){
+        return FALSE;
+    }
+    if (pin == GND) {
 1a0012f0:	f1b0 3fff 	cmp.w	r0, #4294967295	@ 0xffffffff
 1a0012f4:	d029      	beq.n	1a00134a <gpioWrite+0x66>
-	  return FALSE;
-   }
+        return FALSE;
+    }
 
-   bool_t ret_val     = 1;
+    bool_t ret_val = 1;
 
-   int8_t pinNamePort = 0;
+    int8_t pinNamePort = 0;
 1a0012f6:	2300      	movs	r3, #0
 1a0012f8:	f88d 300f 	strb.w	r3, [sp, #15]
-   int8_t pinNamePin  = 0;
+    int8_t pinNamePin = 0;
 1a0012fc:	f88d 300e 	strb.w	r3, [sp, #14]
 
-   int8_t func        = 0;
+    int8_t func = 0;
 1a001300:	f88d 300d 	strb.w	r3, [sp, #13]
 
-   int8_t gpioPort    = 0;
+    int8_t gpioPort = 0;
 1a001304:	f88d 300c 	strb.w	r3, [sp, #12]
-   int8_t gpioPin     = 0;
+    int8_t gpioPin = 0;
 1a001308:	f88d 300b 	strb.w	r3, [sp, #11]
 
-   gpioObtainPinInit( pin, &pinNamePort, &pinNamePin, &func,
+    gpioObtainPinInit(pin, &pinNamePort, &pinNamePin, &func, &gpioPort, &gpioPin);
 1a00130c:	f10d 030b 	add.w	r3, sp, #11
 1a001310:	9301      	str	r3, [sp, #4]
 1a001312:	ab03      	add	r3, sp, #12
@@ -3484,9 +3458,8 @@ bool_t gpioWrite( gpioMap_t pin, bool_t value )
 1a00131a:	f10d 020e 	add.w	r2, sp, #14
 1a00131e:	f10d 010f 	add.w	r1, sp, #15
 1a001322:	f7ff fee9 	bl	1a0010f8 <gpioObtainPinInit>
-                      &gpioPort, &gpioPin );
 
-   Chip_GPIO_SetPinState( LPC_GPIO_PORT, gpioPort, gpioPin, value);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, gpioPort, gpioPin, value);
 1a001326:	f89d 300c 	ldrb.w	r3, [sp, #12]
 1a00132a:	f89d 200b 	ldrb.w	r2, [sp, #11]
 1a00132e:	1e21      	subs	r1, r4, #0
@@ -3498,26 +3471,26 @@ bool_t gpioWrite( gpioMap_t pin, bool_t value )
 1a00133a:	f503 2370 	add.w	r3, r3, #983040	@ 0xf0000
 1a00133e:	5499      	strb	r1, [r3, r2]
 
-   return ret_val;
+    return ret_val;
 1a001340:	2001      	movs	r0, #1
 }
 1a001342:	b004      	add	sp, #16
 1a001344:	bd10      	pop	{r4, pc}
-	  return FALSE;
+        return FALSE;
 1a001346:	2000      	movs	r0, #0
 }
 1a001348:	4770      	bx	lr
-	  return FALSE;
+        return FALSE;
 1a00134a:	2000      	movs	r0, #0
 1a00134c:	e7f9      	b.n	1a001342 <gpioWrite+0x5e>
 	...
 
 1a001350 <tickRead>:
-   #ifdef USE_FREERTOS
-      return xTaskGetTickCount();
-   #else
-      return tickCounter;
-   #endif
+#ifdef USE_FREERTOS
+    return xTaskGetTickCount();
+#else
+    return tickCounter;
+#endif
 }
 1a001350:	4b01      	ldr	r3, [pc, #4]	@ (1a001358 <tickRead+0x8>)
 1a001352:	e9d3 0100 	ldrd	r0, r1, [r3]
@@ -3525,40 +3498,39 @@ bool_t gpioWrite( gpioMap_t pin, bool_t value )
 1a001358:	10000060 	.word	0x10000060
 
 1a00135c <tickPowerSet>:
-void tickPowerSet( bool_t power )
-{
-   #ifdef USE_FREERTOS
-      uartWriteString( UART_USB, "Use of tickPowerSet() in a program with freeRTOS has no effect\r\n" );
-   #else
-      if( power ) {
+// Enable or disable the peripheral energy and clock
+void tickPowerSet(bool_t power) {
+#ifdef USE_FREERTOS
+    uartWriteString(UART_USB, "Use of tickPowerSet() in a program with freeRTOS has no effect\r\n");
+#else
+    if (power) {
 1a00135c:	b120      	cbz	r0, 1a001368 <tickPowerSet+0xc>
-         // Enable SysTick IRQ and SysTick Timer
-         SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
+        // Enable SysTick IRQ and SysTick Timer
+        SysTick->CTRL =
 1a00135e:	f04f 23e0 	mov.w	r3, #3758153728	@ 0xe000e000
 1a001362:	2207      	movs	r2, #7
 1a001364:	611a      	str	r2, [r3, #16]
 1a001366:	4770      	bx	lr
-                         SysTick_CTRL_TICKINT_Msk   |
-                         SysTick_CTRL_ENABLE_Msk;
-      } else {
-         // Disable SysTick IRQ and SysTick Timer
-         SysTick->CTRL = 0x0000000;
+            SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
+    } else {
+        // Disable SysTick IRQ and SysTick Timer
+        SysTick->CTRL = 0x0000000;
 1a001368:	f04f 23e0 	mov.w	r3, #3758153728	@ 0xe000e000
 1a00136c:	2200      	movs	r2, #0
 1a00136e:	611a      	str	r2, [r3, #16]
-      }
-   #endif
+    }
+#endif
 }
 1a001370:	4770      	bx	lr
 	...
 
 1a001374 <tickInit>:
-{
+bool_t tickInit(tick_t tickRateMSvalue) {
 1a001374:	b510      	push	{r4, lr}
-      if( tickRateMSvalue == 0 ) {
+    if (tickRateMSvalue == 0) {
 1a001376:	ea50 0301 	orrs.w	r3, r0, r1
 1a00137a:	d028      	beq.n	1a0013ce <tickInit+0x5a>
-         if( (tickRateMSvalue >= 1) && (tickRateMSvalue <= 50) ) {
+        if ((tickRateMSvalue >= 1) && (tickRateMSvalue <= 50)) {
 1a00137c:	1e42      	subs	r2, r0, #1
 1a00137e:	f141 33ff 	adc.w	r3, r1, #4294967295	@ 0xffffffff
 1a001382:	2a32      	cmp	r2, #50	@ 0x32
@@ -3568,7 +3540,7 @@ void tickPowerSet( bool_t power )
 1a00138a:	4b14      	ldr	r3, [pc, #80]	@ (1a0013dc <tickInit+0x68>)
 1a00138c:	6018      	str	r0, [r3, #0]
 1a00138e:	6059      	str	r1, [r3, #4]
-            SysTick_Config( SystemCoreClock * tickRateMSvalue / 1000 );
+            SysTick_Config(SystemCoreClock * tickRateMSvalue / 1000);
 1a001390:	4b13      	ldr	r3, [pc, #76]	@ (1a0013e0 <tickInit+0x6c>)
 1a001392:	681c      	ldr	r4, [r3, #0]
 1a001394:	fba4 0c00 	umull	r0, ip, r4, r0
@@ -3603,17 +3575,17 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
 1a0013c0:	2207      	movs	r2, #7
 1a0013c2:	611a      	str	r2, [r3, #16]
-            tickPowerSet( ON );
+            tickPowerSet(ON);
 1a0013c4:	2001      	movs	r0, #1
 1a0013c6:	f7ff ffc9 	bl	1a00135c <tickPowerSet>
-      bool_t ret_val = 1;
+    bool_t ret_val = 1;
 1a0013ca:	2001      	movs	r0, #1
 }
 1a0013cc:	bd10      	pop	{r4, pc}
-         tickPowerSet( OFF );
+        tickPowerSet(OFF);
 1a0013ce:	2000      	movs	r0, #0
 1a0013d0:	f7ff ffc4 	bl	1a00135c <tickPowerSet>
-         ret_val = 0;
+        ret_val = 0;
 1a0013d4:	2000      	movs	r0, #0
 1a0013d6:	e7f9      	b.n	1a0013cc <tickInit+0x58>
             ret_val = 0;
@@ -3628,11 +3600,11 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 //__attribute__ ((section(".after_vectors")))
 
 // SysTick Timer ISR Handler
-void tickerCallback( void )   // Before SysTick_Handler
+void tickerCallback(void)  // Before SysTick_Handler
 {
 1a0013e8:	b508      	push	{r3, lr}
-   // Increment Tick counters
-   tickCounter++;
+    // Increment Tick counters
+    tickCounter++;
 1a0013ea:	4a07      	ldr	r2, [pc, #28]	@ (1a001408 <SysTick_Handler+0x20>)
 1a0013ec:	6813      	ldr	r3, [r2, #0]
 1a0013ee:	6851      	ldr	r1, [r2, #4]
@@ -3640,16 +3612,16 @@ void tickerCallback( void )   // Before SysTick_Handler
 1a0013f2:	f141 0100 	adc.w	r1, r1, #0
 1a0013f6:	6013      	str	r3, [r2, #0]
 1a0013f8:	6051      	str	r1, [r2, #4]
-   // Execute Tick Hook function if pointer is not NULL
-   if( (tickHookFunction != NULL) ) {
+    // Execute Tick Hook function if pointer is not NULL
+    if ((tickHookFunction != NULL)) {
 1a0013fa:	4b04      	ldr	r3, [pc, #16]	@ (1a00140c <SysTick_Handler+0x24>)
 1a0013fc:	681b      	ldr	r3, [r3, #0]
 1a0013fe:	b113      	cbz	r3, 1a001406 <SysTick_Handler+0x1e>
-      (* tickHookFunction )( callBackFuncParams );
+        (*tickHookFunction)(callBackFuncParams);
 1a001400:	4a03      	ldr	r2, [pc, #12]	@ (1a001410 <SysTick_Handler+0x28>)
 1a001402:	6810      	ldr	r0, [r2, #0]
 1a001404:	4798      	blx	r3
-   }
+    }
 }
 1a001406:	bd08      	pop	{r3, pc}
 1a001408:	10000060 	.word	0x10000060
@@ -3661,10 +3633,10 @@ void tickerCallback( void )   // Before SysTick_Handler
  * @brief   Handle interrupt from USB
  * @return  Nothing
  */
-#ifndef USB_HOST_ONLY // Parche para envitar conflictos con biblioteca host
-void USB_IRQHandler(void){
+#ifndef USB_HOST_ONLY  // Parche para envitar conflictos con biblioteca host
+void USB_IRQHandler(void) {
 1a001414:	b508      	push	{r3, lr}
-   USBD_API->hw->ISR(g_hUsb);
+    USBD_API->hw->ISR(g_hUsb);
 1a001416:	4b04      	ldr	r3, [pc, #16]	@ (1a001428 <USB0_IRQHandler+0x14>)
 1a001418:	681b      	ldr	r3, [r3, #0]
 1a00141a:	681b      	ldr	r3, [r3, #0]
@@ -3679,105 +3651,105 @@ void USB_IRQHandler(void){
 1a00142c:	1000006c 	.word	0x1000006c
 
 1a001430 <boardInit>:
+/*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
 
 /* Set up and initialize board hardware */
-void boardInit(void)
-{
+void boardInit(void) {
 1a001430:	b508      	push	{r3, lr}
-   // Read clock settings and update SystemCoreClock variable
-   SystemCoreClockUpdate();
+    // Read clock settings and update SystemCoreClock variable
+    SystemCoreClockUpdate();
 1a001432:	f7ff f97b 	bl	1a00072c <SystemCoreClockUpdate>
 
-   cyclesCounterInit( SystemCoreClock );
+    cyclesCounterInit(SystemCoreClock);
 1a001436:	4b1a      	ldr	r3, [pc, #104]	@ (1a0014a0 <boardInit+0x70>)
 1a001438:	6818      	ldr	r0, [r3, #0]
 1a00143a:	f7ff fe4f 	bl	1a0010dc <cyclesCounterInit>
 
-   // Inicializar el conteo de Ticks con resolucion de 1ms (si no se usa freeRTOS)
-   #ifndef USE_FREERTOS
-      tickInit( 1 );
+// Inicializar el conteo de Ticks con resolucion de 1ms (si no se usa freeRTOS)
+#ifndef USE_FREERTOS
+    tickInit(1);
 1a00143e:	2001      	movs	r0, #1
 1a001440:	2100      	movs	r1, #0
 1a001442:	f7ff ff97 	bl	1a001374 <tickInit>
-      //#error CIAA-NXP
+    // #error CIAA-NXP
 
-   #elif BOARD==edu_ciaa_nxp
+#elif BOARD == edu_ciaa_nxp
 
-      // Inicializar GPIOs
-      gpioInit( 0, GPIO_ENABLE );
+    // Inicializar GPIOs
+    gpioInit(0, GPIO_ENABLE);
 1a001446:	2105      	movs	r1, #5
 1a001448:	2000      	movs	r0, #0
 1a00144a:	f7ff fe71 	bl	1a001130 <gpioInit>
 
-      // Configuracion de pines de entrada para Teclas de la EDU-CIAA-NXP
-      gpioInit( TEC1, GPIO_INPUT );
+    // Configuracion de pines de entrada para Teclas de la EDU-CIAA-NXP
+    gpioInit(TEC1, GPIO_INPUT);
 1a00144e:	2100      	movs	r1, #0
 1a001450:	2024      	movs	r0, #36	@ 0x24
 1a001452:	f7ff fe6d 	bl	1a001130 <gpioInit>
-      gpioInit( TEC2, GPIO_INPUT );
+    gpioInit(TEC2, GPIO_INPUT);
 1a001456:	2100      	movs	r1, #0
 1a001458:	2025      	movs	r0, #37	@ 0x25
 1a00145a:	f7ff fe69 	bl	1a001130 <gpioInit>
-      gpioInit( TEC3, GPIO_INPUT );
+    gpioInit(TEC3, GPIO_INPUT);
 1a00145e:	2100      	movs	r1, #0
 1a001460:	2026      	movs	r0, #38	@ 0x26
 1a001462:	f7ff fe65 	bl	1a001130 <gpioInit>
-      gpioInit( TEC4, GPIO_INPUT );
+    gpioInit(TEC4, GPIO_INPUT);
 1a001466:	2100      	movs	r1, #0
 1a001468:	2027      	movs	r0, #39	@ 0x27
 1a00146a:	f7ff fe61 	bl	1a001130 <gpioInit>
 
-      // Configuracion de pines de salida para Leds de la EDU-CIAA-NXP
-      gpioInit( LEDR, GPIO_OUTPUT );
+    // Configuracion de pines de salida para Leds de la EDU-CIAA-NXP
+    gpioInit(LEDR, GPIO_OUTPUT);
 1a00146e:	2101      	movs	r1, #1
 1a001470:	2028      	movs	r0, #40	@ 0x28
 1a001472:	f7ff fe5d 	bl	1a001130 <gpioInit>
-      gpioInit( LEDG, GPIO_OUTPUT );
+    gpioInit(LEDG, GPIO_OUTPUT);
 1a001476:	2101      	movs	r1, #1
 1a001478:	2029      	movs	r0, #41	@ 0x29
 1a00147a:	f7ff fe59 	bl	1a001130 <gpioInit>
-      gpioInit( LEDB, GPIO_OUTPUT );
+    gpioInit(LEDB, GPIO_OUTPUT);
 1a00147e:	2101      	movs	r1, #1
 1a001480:	202a      	movs	r0, #42	@ 0x2a
 1a001482:	f7ff fe55 	bl	1a001130 <gpioInit>
-      gpioInit( LED1, GPIO_OUTPUT );
+    gpioInit(LED1, GPIO_OUTPUT);
 1a001486:	2101      	movs	r1, #1
 1a001488:	202b      	movs	r0, #43	@ 0x2b
 1a00148a:	f7ff fe51 	bl	1a001130 <gpioInit>
-      gpioInit( LED2, GPIO_OUTPUT );
+    gpioInit(LED2, GPIO_OUTPUT);
 1a00148e:	2101      	movs	r1, #1
 1a001490:	202c      	movs	r0, #44	@ 0x2c
 1a001492:	f7ff fe4d 	bl	1a001130 <gpioInit>
-      gpioInit( LED3, GPIO_OUTPUT );
+    gpioInit(LED3, GPIO_OUTPUT);
 1a001496:	2101      	movs	r1, #1
 1a001498:	202d      	movs	r0, #45	@ 0x2d
 1a00149a:	f7ff fe49 	bl	1a001130 <gpioInit>
-   #else
-      #error BOARD compile variable must be defined
 
-   #endif
+#else
+#error BOARD compile variable must be defined
 
+#endif
 }
 1a00149e:	bd08      	pop	{r3, pc}
 1a0014a0:	10000048 	.word	0x10000048
 
 1a0014a4 <delay>:
+
 /* ---- Blocking Delay ---- */
 
 // delay( 1, DELAY_US );
 
-void delay( tick_t duration_ms )
-{
+void delay(tick_t duration_ms) {
 1a0014a4:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 1a0014a8:	4680      	mov	r8, r0
 1a0014aa:	460f      	mov	r7, r1
-   tick_t startTime = tickRead();
+    tick_t startTime = tickRead();
 1a0014ac:	f7ff ff50 	bl	1a001350 <tickRead>
 1a0014b0:	4605      	mov	r5, r0
 1a0014b2:	460e      	mov	r6, r1
-   while ( (tick_t)(tickRead() - startTime) < duration_ms/tickRateMS );
+    while ((tick_t)(tickRead() - startTime) < duration_ms / tickRateMS);
 1a0014b4:	f7ff ff4c 	bl	1a001350 <tickRead>
 1a0014b8:	1b44      	subs	r4, r0, r5
 1a0014ba:	eb61 0906 	sbc.w	r9, r1, r6

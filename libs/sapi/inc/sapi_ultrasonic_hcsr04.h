@@ -54,16 +54,14 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 typedef enum {
-	ULTRASONIC_SENSOR_0, ULTRASONIC_SENSOR_1, ULTRASONIC_SENSOR_2
+    ULTRASONIC_SENSOR_0,
+    ULTRASONIC_SENSOR_1,
+    ULTRASONIC_SENSOR_2
 } ultrasonicSensorMap_t;
 
-typedef enum {
-	ULTRASONIC_SENSOR_ENABLE, ULTRASONIC_SENSOR_DISABLE
-} ultrasonicSensorInit_t;
+typedef enum { ULTRASONIC_SENSOR_ENABLE, ULTRASONIC_SENSOR_DISABLE } ultrasonicSensorInit_t;
 
-typedef enum {
-	CM, INCH
-} unitMap_t;
+typedef enum { CM, INCH } unitMap_t;
 
 /*==================[external functions declaration]=========================*/
 
@@ -73,7 +71,7 @@ typedef enum {
  * @param   aConfig:   enable or disable sensor
  * @return   nothing
  */
-void ultrasonicSensorInit( ultrasonicSensorMap_t aSensor, ultrasonicSensorInit_t aConfig );
+void ultrasonicSensorInit(ultrasonicSensorMap_t aSensor, ultrasonicSensorInit_t aConfig);
 
 /*
  * @Brief   retrieves sensor actual distance in the specified unit
@@ -81,7 +79,7 @@ void ultrasonicSensorInit( ultrasonicSensorMap_t aSensor, ultrasonicSensorInit_t
  * @param   anUnit:		returned value unit (centimeters, inch, etc)
  * @return  float value with measured distance
  */
-float ultrasonicSensorGetDistance( ultrasonicSensorMap_t aSensor, unitMap_t anUnit );
+float ultrasonicSensorGetDistance(ultrasonicSensorMap_t aSensor, unitMap_t anUnit);
 
 /*==================[ISR external functions declaration]=====================*/
 /*

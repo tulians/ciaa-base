@@ -52,15 +52,13 @@ extern "C" {
 
 /*==================[typedef]================================================*/
 
-typedef enum {
-   ADC_ENABLE, ADC_DISABLE
-} adcInit_t;
+typedef enum { ADC_ENABLE, ADC_DISABLE } adcInit_t;
 
 /*==================[external functions declaration]=========================*/
 
-void adcInit( adcInit_t config );
+void adcInit(adcInit_t config);
 
-uint16_t adcRead( adcMap_t analogInput );
+uint16_t adcRead(adcMap_t analogInput);
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
