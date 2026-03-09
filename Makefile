@@ -224,6 +224,10 @@ size: $(TARGET)
 	@echo SIZEOF $(notdir $<)...
 	$(Q)$(SIZE) $<
 
+# Host tests
+test:
+	@$(MAKE) -f tests/test.mk PROGRAM_PATH_AND_NAME=$(PROGRAM_PATH_AND_NAME) test
+
 # Information
 .info:
 	LANG=C $(MAKE) -B -p  -r -n

@@ -9,13 +9,16 @@ DEFINES+=ARM_MATH_CM4
 LPCOPEN_BASE=libs/lpc_open
 
 SRC+=$(wildcard $(LPCOPEN_BASE)/boards/$(BOARD)/src/*.c)
-INCLUDES+=-I$(LPCOPEN_BASE)/boards/$(BOARD)/inc
-INCLUDES+=-I$(LPCOPEN_BASE)/boards/inc
+# Board specific includes (board.h)
+INCLUDES+=-I$(LPCOPEN_BASE)/inc/boards/$(BOARD)
+INCLUDES+=-I$(LPCOPEN_BASE)/inc/boards
 
 SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/src/*.c)
 
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/inc
+# USBD ROM path remains
 INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/usbd_rom
+
+SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_startup/src/*.c) 
 
 endif
 
@@ -34,6 +37,3 @@ LDSCRIPT=flat.ld
 else
 LDSCRIPT=link.ld
 endif
-
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_startup/src/*.c) 
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_startup/inc
